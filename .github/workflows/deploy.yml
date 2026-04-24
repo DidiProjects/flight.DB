@@ -75,6 +75,11 @@ jobs:
           echo "Imagem Docker construída com sucesso"
           EOF
 
+      - name: Ensure Docker network exists
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} \
+            "sudo docker network inspect flight-network >/dev/null 2>&1 || sudo docker network create --driver bridge flight-network"
+
       - name: Deploy PostgreSQL container
         run: |
           ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
@@ -88,14 +93,11 @@ jobs:
             sudo rm -rf /mnt/storage/docker/postgres/flight_data/*
           fi
 
-          # Create Docker network if it doesn't exist
-          sudo docker network create flight-network 2>/dev/null || true   
-
           sudo docker run -d \
             --name flight-db \
             --restart unless-stopped \
             --network=flight-network \
-            -p ${{ vars.DB_PORT }}:${{ vars.DB_PORT }} \
+            -p ${{ vars.DB_PORT }}:5432 \
             -v /mnt/storage/docker/postgres/flight_data:/var/lib/postgresql/data \
             -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
