@@ -60,9 +60,9 @@ jobs:
       - name: Stop existing container
         run: |
           ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
-          if sudo docker ps -q --filter "name=flight-db" | grep -q .; then
-            echo "Parando container existente..."
-            sudo docker stop flight-db || true
+          if sudo docker ps -aq --filter "name=flight-db" | grep -q .; then
+            echo "Removendo container existente..."
+            sudo docker stop flight-db 2>/dev/null || true
             sudo docker rm flight-db || true
           fi
           EOF
