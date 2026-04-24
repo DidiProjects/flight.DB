@@ -13,7 +13,7 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_INITIAL_PASSWORD: ${ADMIN_INITIAL_PASSWORD}
     ports:
-      - "5432:5432"
+      - "5433:5433"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

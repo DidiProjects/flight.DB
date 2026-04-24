@@ -92,7 +92,7 @@ jobs:
             --name flight-db \
             --restart unless-stopped \
             --network=flight-network \
-            -p ${{ vars.DB_PORT }}:5432 \
+            -p ${{ vars.DB_PORT }}:${{ vars.DB_PORT }} \
             -v /mnt/storage/docker/postgres/flight_data:/var/lib/postgresql/data \
             -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
             -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \

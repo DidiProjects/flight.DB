@@ -358,7 +358,7 @@ Avalia, por rotina, se deve enviar email após cada resultado:
 
 ```
 PORT=3001
-DATABASE_URL=postgresql://user:pass@flight-db:5432/flightdb
+DATABASE_URL=postgresql://user:pass@flight-db:5433/flightdb
 JWT_SECRET=...
 JWT_EXPIRES_IN=7d
 

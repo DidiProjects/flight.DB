@@ -18,7 +18,7 @@ COPY init-scripts/ /docker-entrypoint-initdb.d/
 RUN chmod -R 755 /docker-entrypoint-initdb.d/
 
 # Expõe a porta do PostgreSQL
-EXPOSE 5432
+EXPOSE 5433
 
 # Cria um volume para persistência dos dados
 VOLUME ["/var/lib/postgresql/data"]
