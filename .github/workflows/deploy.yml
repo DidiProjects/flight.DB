@@ -88,6 +88,9 @@ jobs:
             sudo rm -rf /mnt/storage/docker/postgres/flight_data/*
           fi
 
+          # Criar rede compartilhada (se não existir)
+          sudo docker network create flight-network 2>/dev/null || true   
+
           sudo docker run -d \
             --name flight-db \
             --restart unless-stopped \
