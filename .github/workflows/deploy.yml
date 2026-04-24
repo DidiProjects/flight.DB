@@ -1,0 +1,171 @@
+name: Deploy flight.DB to Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: 'Ambiente de deploy'
+        required: true
+        default: 'produção'
+        type: choice
+        options:
+          - produção
+          - desenvolvimento
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v2
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+
+      - name: Install rsync
+        run: sudo apt-get update && sudo apt-get install -y rsync
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Install rsync on server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          if ! command -v rsync &> /dev/null; then
+            echo "Instalando rsync no servidor..."
+            sudo apt-get update -qq
+            sudo apt-get install -y rsync
+          else
+            echo "rsync já está instalado"
+          fi
+          EOF
+
+      - name: Transfer files to server
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} "mkdir -p /tmp/flight-db-deploy"
+
+          rsync -avz --delete \
+            -e "ssh -o StrictHostKeyChecking=no -p 1024" \
+            --exclude='.git' \
+            --exclude='.env' \
+            --exclude='postgres_data' \
+            ./ diego@${{ vars.TAILSCALE_IP }}:/tmp/flight-db-deploy/
+
+      - name: Stop existing container
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          if sudo docker ps -q --filter "name=flight-db" | grep -q .; then
+            echo "Parando container existente..."
+            sudo docker stop flight-db || true
+            sudo docker rm flight-db || true
+          fi
+          EOF
+
+      - name: Build Docker image
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          cd /tmp/flight-db-deploy
+          sudo docker build -t flight-db:latest .
+          echo "Imagem Docker construída com sucesso"
+          EOF
+
+      - name: Deploy PostgreSQL container
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          cd /tmp/flight-db-deploy
+
+          sudo mkdir -p /mnt/storage/docker/postgres/flight_data
+          sudo chown -R 999:999 /mnt/storage/docker/postgres/flight_data
+
+          if [ "${{ vars.RESTORE_BACKUP || 'false' }}" = "true" ]; then
+            echo "Flag RESTORE_BACKUP ativada — limpando dados existentes"
+            sudo rm -rf /mnt/storage/docker/postgres/flight_data/*
+          fi
+
+          sudo docker run -d \
+            --name flight-db \
+            --restart unless-stopped \
+            --network=flight-network \
+            -p ${{ vars.DB_PORT }}:5432 \
+            -v /mnt/storage/docker/postgres/flight_data:/var/lib/postgresql/data \
+            -e POSTGRES_DB=${{ secrets.POSTGRES_DB }} \
+            -e POSTGRES_USER=${{ secrets.POSTGRES_USER }} \
+            -e POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} \
+            -e ADMIN_EMAIL=${{ secrets.ADMIN_EMAIL }} \
+            -e ADMIN_INITIAL_PASSWORD=${{ secrets.ADMIN_INITIAL_PASSWORD }} \
+            flight-db:latest
+
+          echo "Container flight-db iniciado"
+          EOF
+
+      - name: Wait for database to be ready
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          echo "Aguardando inicialização do banco..."
+          for i in {1..12}; do
+            if sudo docker exec flight-db pg_isready -U ${{ secrets.POSTGRES_USER }} > /dev/null 2>&1; then
+              echo "Banco pronto!"
+              break
+            fi
+            echo "Tentativa $i/12..."
+            sleep 5
+          done
+          EOF
+
+      - name: Restore database backup
+        if: vars.RESTORE_BACKUP == 'true'
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          cd /tmp/flight-db-deploy
+
+          if [ -f "backup/flight_backup.sql" ]; then
+            echo "Restaurando backup..."
+            sudo docker exec -i flight-db psql -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} < backup/flight_backup.sql
+            echo "Backup restaurado com sucesso!"
+          else
+            echo "Arquivo backup/flight_backup.sql não encontrado"
+            ls -la backup/ || echo "Diretório backup não encontrado"
+            exit 1
+          fi
+          EOF
+
+      - name: Check deployment status
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          echo "=== Status do Container ==="
+          sudo docker ps --filter "name=flight-db" --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+          echo -e "\n=== Logs do Container ==="
+          sudo docker logs flight-db --tail 15
+
+          echo -e "\n=== Teste de Conexão ==="
+          if sudo docker exec flight-db pg_isready -U ${{ secrets.POSTGRES_USER }}; then
+            echo "Banco funcionando corretamente"
+          else
+            echo "Problema na conexão"
+            exit 1
+          fi
+
+          echo -e "\n=== Tabelas ==="
+          sudo docker exec flight-db psql -U ${{ secrets.POSTGRES_USER }} -d ${{ secrets.POSTGRES_DB }} -c "\dt" || echo "Erro ao listar tabelas"
+          EOF
+
+      - name: Cleanup
+        run: |
+          ssh -o StrictHostKeyChecking=no -p 1024 diego@${{ vars.TAILSCALE_IP }} << 'EOF'
+          rm -rf /tmp/flight-db-deploy
+          sudo docker image prune -f
+          echo "Limpeza concluída"
+          EOF
+
+      - name: Deployment completed
+        run: |
+          echo "Deploy do flight.DB concluído!"
+          echo "PostgreSQL rodando na porta ${{ vars.DB_PORT }}"
+          echo "Endpoint: ${{ vars.TAILSCALE_IP }}:${{ vars.DB_PORT }}"

@@ -1,0 +1,25 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "100.116.16.24",
+      "port": 5432,
+      "askForPassword": true,
+      "driver": "PostgreSQL",
+      "name": "uaitay_postgres_ip",
+      "database": "uaitayDB",
+      "username": "uaitay_api",
+      "connectionTimeout": 30
+    },
+    {
+      "previewLimit": 50,
+      "server": "localhost",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "name": "local",
+      "database": "dev-uaitayDB",
+      "username": "admin",
+      "password": "admin123"
+    }
+  ]
+}
