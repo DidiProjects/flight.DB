@@ -16,6 +16,18 @@ CREATE TABLE users (
     updated_at             TIMESTAMPTZ  NOT NULL DEFAULT now()
 );
 
+-- ─── refresh_tokens ──────────────────────────────────────────────────────────
+
+CREATE TABLE refresh_tokens (
+    id         UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id    UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    token      VARCHAR(128) UNIQUE NOT NULL,
+    expires_at TIMESTAMPTZ  NOT NULL,
+    used_at    TIMESTAMPTZ,
+    revoked_at TIMESTAMPTZ,
+    created_at TIMESTAMPTZ  NOT NULL DEFAULT now()
+);
+
 -- ─── password_reset_tokens ───────────────────────────────────────────────────
 
 CREATE TABLE password_reset_tokens (
@@ -136,7 +148,7 @@ CREATE TABLE unsubscribe_tokens (
 );
 
 -- ─── indexes ─────────────────────────────────────────────────────────────────
-
+CREATE INDEX idx_refresh_token            ON refresh_tokens(token);
 CREATE INDEX idx_routines_user_id         ON routines(user_id);
 CREATE INDEX idx_routines_is_active       ON routines(is_active);
 CREATE INDEX idx_flight_offers_routine_id ON flight_offers(routine_id);
