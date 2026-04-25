@@ -16,6 +16,8 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - flight-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DB}"]
       interval: 5s
@@ -24,3 +26,7 @@ services:
 
 volumes:
   postgres_data:
+
+networks:
+  flight-network:
+    external: true
