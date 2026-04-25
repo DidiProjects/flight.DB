@@ -29,4 +29,5 @@ volumes:
 
 networks:
   flight-network:
-    external: true
+    name: flight-network
+    driver: bridge
