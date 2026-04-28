@@ -43,10 +43,14 @@ CREATE TABLE password_reset_tokens (
 -- ─── airlines ────────────────────────────────────────────────────────────────
 
 CREATE TABLE airlines (
-    code   VARCHAR(10)  PRIMARY KEY,
-    name   VARCHAR(100) NOT NULL,
-    active BOOLEAN      NOT NULL DEFAULT true
+    code    VARCHAR(10)  PRIMARY KEY,
+    name    VARCHAR(100) NOT NULL,
+    active  BOOLEAN      NOT NULL DEFAULT true,
+    has_brl BOOLEAN      NOT NULL DEFAULT true,
+    has_pts BOOLEAN      NOT NULL DEFAULT false,
+    has_hyb BOOLEAN      NOT NULL DEFAULT false
 );
+
 
 -- ─── routines ────────────────────────────────────────────────────────────────
 
