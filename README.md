@@ -1,105 +1,114 @@
 # flight.DB
 
-Banco de dados PostgreSQL do sistema flight. Define o schema, seeds e configurações de container para uso pelo `flight.API`.
+PostgreSQL database for the flight system. Defines the schema, seed scripts, and container configuration consumed by `flight.API`.
 
 ## Stack
 
-- **PostgreSQL 16** — banco relacional, timezone America/Sao_Paulo
-- **Docker** — imagem customizada
-- **Docker Compose** — setup local
+- **PostgreSQL 16** — relational database, timezone America/Sao_Paulo
+- **Docker** — custom image
+- **Docker Compose** — local development setup
 
-## Estrutura
+## Project structure
 
 ```
 init-scripts/
-  01-schema.sql   ← 7 tabelas, indexes, triggers updated_at
-  02-seed.sh      ← airlines + admin inicial (bcrypt via pgcrypto)
-backup/           ← dumps SQL
+  01-schema.sql   ← 8 tables, indexes, updated_at triggers
+  02-seed.sh      ← airlines + initial admin user (bcrypt via pgcrypto)
+backup/           ← SQL dumps
 Dockerfile
 docker-compose.yaml
-design.md         ← design completo do sistema (flight.API + flight.DB)
+design.md         ← full system design (flight.API + flight.DB)
 ```
 
 ## Schema
 
-7 tabelas: `users`, `password_reset_tokens`, `airlines`, `routines`, `flight_offers`, `best_fares`, `notification_log`, `unsubscribe_tokens`.
+| Table | Description |
+|---|---|
+| `users` | Authenticated users — roles: `admin`, `user` |
+| `refresh_tokens` | JWT refresh tokens (revocable) |
+| `password_reset_tokens` | Secure tokens for password recovery flow |
+| `airlines` | Available airlines with supported fare types (`has_brl`, `has_pts`, `has_hyb`) |
+| `routines` | User-defined flight monitoring routines (max 10 per user) |
+| `flight_offers` | Raw flight offers received from `scraping.API` |
+| `best_fares` | Best accumulated fare per routine/date/direction/type |
+| `notification_log` | Email dispatch history — used for anti-spam logic |
+| `unsubscribe_tokens` | One-time tokens for unsubscribing from email notifications |
 
-Detalhes completos em [`design.md`](design.md).
+Full schema details and system design in [`design.md`](design.md).
 
-## Rodando localmente
+## Running locally
 
-**Pré-requisito:** Docker + Docker Compose.
+**Requires:** Docker + Docker Compose.
 
-Crie o `.env` na raiz:
+Create `.env` at the project root:
 
 ```env
 PG_USER=admin
 PG_PASSWORD=admin123
-PG_DB=flightdb
+PG_DB=dev-flightDB
 ADMIN_EMAIL=admin@flight.local
 ADMIN_INITIAL_PASSWORD=changeme123
 ```
 
-Suba o container:
+Start the container:
 
 ```sh
 docker compose up
 ```
 
-Na primeira inicialização o Docker executa os `init-scripts/` automaticamente — schema + seed. Nas reinicializações seguintes o volume já existe e os scripts não rodam novamente.
+On first initialization Docker runs `init-scripts/` automatically — schema + seed. On subsequent starts the volume already exists and the scripts are skipped.
 
-## Comandos úteis
+## Useful commands
 
 ```sh
-# Conectar ao banco
-docker exec -it flight-db psql -U admin -d flightdb
+# Connect to the database
+docker exec -it flight-db psql -U admin -d dev-flightDB
 
-# Listar tabelas
+# List tables
 \dt
 
-# Ver logs
+# View logs
 docker logs flight-db
 
-# Parar e remover container (mantém volume)
+# Stop container (keeps volume)
 docker compose down
 
-# Parar e remover tudo, inclusive volume (⚠ apaga dados)
+# Stop and remove everything including volume (⚠ destroys data)
 docker compose down -v
 ```
 
-## Backup e restauração
+## Backup and restore
 
 ```sh
-# Gerar backup
-docker exec -t flight-db pg_dump -U admin -d flightdb > backup/flight_backup.sql
+# Generate backup
+docker exec -t flight-db pg_dump -U admin -d dev-flightDB > backup/flight_backup.sql
 
-# Restaurar backup
-cat backup/flight_backup.sql | docker exec -i flight-db psql -U admin -d flightdb
+# Restore backup
+cat backup/flight_backup.sql | docker exec -i flight-db psql -U admin -d dev-flightDB
 ```
 
 ## Deploy (GitHub Actions)
 
-O workflow `.github/workflows/deploy.yml` publica via Tailscale + SSH + rsync.
+The workflow `.github/workflows/deploy.yml` publishes via Tailscale + SSH + rsync.
 
 ### Secrets
 
-| Secret | Descrição |
+| Secret | Description |
 |---|---|
-| `POSTGRES_DB` | Nome do banco em produção |
-| `POSTGRES_USER` | Usuário do PostgreSQL |
-| `POSTGRES_PASSWORD` | Senha do PostgreSQL |
-| `ADMIN_EMAIL` | Email do admin inicial |
-| `ADMIN_INITIAL_PASSWORD` | Senha provisória do admin |
-| `SSH_PRIVATE_KEY` | Chave SSH para acesso ao servidor |
-| `TS_OAUTH_CLIENT_ID` | OAuth client ID do Tailscale |
-| `TS_OAUTH_SECRET` | OAuth secret do Tailscale |
+| `POSTGRES_DB` | Production database name |
+| `POSTGRES_USER` | PostgreSQL user |
+| `POSTGRES_PASSWORD` | PostgreSQL password |
+| `ADMIN_EMAIL` | Initial admin email |
+| `ADMIN_INITIAL_PASSWORD` | Admin provisional password (must be changed on first login) |
+| `SSH_PRIVATE_KEY` | SSH key for server access |
+| `TAILSCALE_CLIENT_SECRET` | Tailscale auth key |
 
 ### Variables
 
-| Variable | Descrição |
+| Variable | Description |
 |---|---|
-| `TAILSCALE_IP` | IP do servidor via Tailscale |
-| `DB_PORT` | Porta exposta do PostgreSQL |
-| `RESTORE_BACKUP` | `true` para restaurar `backup/flight_backup.sql` no deploy |
+| `TAILSCALE_IP` | Server IP via Tailscale |
+| `DB_PORT` | Exposed PostgreSQL port on the host (`5433`) |
+| `RESTORE_BACKUP` | Set to `true` to restore `backup/flight_backup.sql` on deploy |
 
-O OAuth client do Tailscale precisa do scope `devices:write`. Crie em [tailscale.com/s/oauth-clients](https://tailscale.com/s/oauth-clients).
+> **Note:** `init-scripts/` only run on the **first volume initialization**. To re-seed in production, clear the volume or run the scripts manually.
