@@ -43,15 +43,14 @@ CREATE TABLE password_reset_tokens (
 -- ─── airlines ────────────────────────────────────────────────────────────────
 
 CREATE TABLE airlines (
-    code    VARCHAR(10)  PRIMARY KEY,
-    currency VARCHAR(3)   NOT NULL DEFAULT 'BRL',
-    name    VARCHAR(100) NOT NULL,
-    active  BOOLEAN      NOT NULL DEFAULT true,
-    has_brl BOOLEAN      NOT NULL DEFAULT true,
-    has_pts BOOLEAN      NOT NULL DEFAULT false,
-    has_hyb BOOLEAN      NOT NULL DEFAULT false
+    code      VARCHAR(10)  PRIMARY KEY,
+    name      VARCHAR(100) NOT NULL,
+    currency  VARCHAR(3)   NOT NULL DEFAULT 'BRL',
+    active    BOOLEAN      NOT NULL DEFAULT true,
+    has_cash  BOOLEAN      NOT NULL DEFAULT true,
+    has_pts   BOOLEAN      NOT NULL DEFAULT false,
+    has_hyb   BOOLEAN      NOT NULL DEFAULT false
 );
-
 
 -- ─── routines ────────────────────────────────────────────────────────────────
 
@@ -120,7 +119,7 @@ CREATE TABLE best_fares (
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
     date            DATE          NOT NULL,
     is_return       BOOLEAN       NOT NULL DEFAULT false,
-    fare_type       VARCHAR(3)    NOT NULL CHECK (fare_type IN ('brl', 'pts', 'hyb')),
+    fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     amount          NUMERIC(12,2) NOT NULL,
     flight_offer_id UUID          NOT NULL REFERENCES flight_offers(id) ON DELETE CASCADE,
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
@@ -133,7 +132,7 @@ CREATE TABLE notification_log (
     id              UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
     type            VARCHAR(20)   NOT NULL CHECK (type      IN ('alert', 'best_of_day', 'end_of_period')),
-    fare_type       VARCHAR(3)    NOT NULL CHECK (fare_type IN ('brl', 'pts', 'hyb')),
+    fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     outbound_amount NUMERIC(12,2),
     return_amount   NUMERIC(12,2),
     email_to        VARCHAR(255)  NOT NULL,
