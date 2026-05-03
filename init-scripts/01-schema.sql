@@ -44,6 +44,7 @@ CREATE TABLE password_reset_tokens (
 
 CREATE TABLE airlines (
     code    VARCHAR(10)  PRIMARY KEY,
+    currency VARCHAR(3)   NOT NULL DEFAULT 'BRL',
     name    VARCHAR(100) NOT NULL,
     active  BOOLEAN      NOT NULL DEFAULT true,
     has_brl BOOLEAN      NOT NULL DEFAULT true,
@@ -66,12 +67,13 @@ CREATE TABLE routines (
     return_start    DATE,
     return_end      DATE,
     passengers      SMALLINT     NOT NULL DEFAULT 1,
-    target_brl      NUMERIC(10,2),
+    currency        VARCHAR(3)   NOT NULL DEFAULT 'BRL',
+    target_cash     NUMERIC(10,2),
     target_pts      INTEGER,
     target_hyb_pts  INTEGER,
-    target_hyb_brl  NUMERIC(10,2),
+    target_hyb_cash NUMERIC(10,2),
     margin          NUMERIC(4,3) NOT NULL DEFAULT 0.1,
-    priority        VARCHAR(3)   NOT NULL DEFAULT 'brl' CHECK (priority IN ('brl', 'pts', 'hyb')),
+    priority        VARCHAR(10)  NOT NULL DEFAULT 'cash' CHECK (priority IN ('cash', 'pts', 'hyb')),
     notification_mode      VARCHAR(30)  NOT NULL CHECK (notification_mode      IN ('alert_only', 'daily_best_and_alert', 'end_of_period')),
     notification_frequency VARCHAR(10)  NOT NULL CHECK (notification_frequency IN ('hourly', 'daily', 'monthly')),
     end_of_period_time     TIME,
@@ -82,8 +84,8 @@ CREATE TABLE routines (
     created_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
     updated_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
     CONSTRAINT at_least_one_target CHECK (
-        target_brl IS NOT NULL OR target_pts IS NOT NULL OR
-        target_hyb_pts IS NOT NULL OR target_hyb_brl IS NOT NULL
+        target_cash IS NOT NULL OR target_pts IS NOT NULL OR
+        target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL
     )
 );
 
