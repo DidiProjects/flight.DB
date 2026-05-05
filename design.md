@@ -125,16 +125,16 @@ destination_iata      CHAR(3)     NOT NULL
 destination_timestamp TIMESTAMPTZ NOT NULL
 duration_min          INTEGER     NOT NULL
 stops                 SMALLINT    NOT NULL DEFAULT 0
-fare_brl              NUMERIC(10,2)
+fare_cash              NUMERIC(10,2)
 fare_pts              INTEGER
 fare_hyb_pts          INTEGER
-fare_hyb_brl          NUMERIC(10,2)
+fare_hyb_cash          NUMERIC(10,2)
 within_target         BOOLEAN     NOT NULL DEFAULT false
 scraped_at            TIMESTAMPTZ NOT NULL
 created_at            TIMESTAMPTZ NOT NULL DEFAULT now()
 ```
 **Regra de validação ao receber do scraping.API:**
-- Descartar oferta onde `fare_brl IS NULL AND fare_pts IS NULL AND fare_hyb_pts IS NULL`
+- Descartar oferta onde `fare_cash IS NULL AND fare_pts IS NULL AND fare_hyb_pts IS NULL`
 - Oferta com apenas alguns fares preenchidos é válida
 - `error` no callback + `flights: []` → logar e zerar `pending_request_id`, não lançar erro
 
