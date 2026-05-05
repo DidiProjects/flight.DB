@@ -66,7 +66,7 @@ CREATE TABLE routines (
     return_start    DATE,
     return_end      DATE,
     passengers      SMALLINT     NOT NULL DEFAULT 1,
-    currency        VARCHAR(3)   NOT NULL DEFAULT 'BRL',
+    currency        VARCHAR(3)   NULL,
     target_cash     NUMERIC(10,2),
     target_pts      INTEGER,
     target_hyb_pts  INTEGER,
