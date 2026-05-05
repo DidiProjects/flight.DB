@@ -43,7 +43,7 @@ CREATE TABLE password_reset_tokens (
 -- ─── airlines ────────────────────────────────────────────────────────────────
 
 CREATE TABLE airlines (
-    code      VARCHAR(10)  PRIMARY KEY,
+    code      VARCHAR(20)  PRIMARY KEY,
     name      VARCHAR(100) NOT NULL,
     currency  VARCHAR(3)   NOT NULL DEFAULT 'BRL',
     active    BOOLEAN      NOT NULL DEFAULT true,
@@ -58,7 +58,7 @@ CREATE TABLE routines (
     id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id         UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name            VARCHAR(100) NOT NULL,
-    airline         VARCHAR(10)  NOT NULL REFERENCES airlines(code),
+    airline         VARCHAR(20)  NOT NULL REFERENCES airlines(code),
     origin          CHAR(3)      NOT NULL,
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
@@ -93,7 +93,7 @@ CREATE TABLE routines (
 CREATE TABLE flight_offers (
     id                    UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id            UUID         NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
-    airline               VARCHAR(10)  NOT NULL,
+    airline               VARCHAR(20)  NOT NULL,
     flight_number         VARCHAR(10)  NOT NULL,
     date                  DATE         NOT NULL,
     is_return             BOOLEAN      NOT NULL DEFAULT false,
