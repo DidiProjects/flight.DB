@@ -103,10 +103,11 @@ CREATE TABLE flight_offers (
     destination_timestamp TIMESTAMPTZ  NOT NULL,
     duration_min          INTEGER      NOT NULL,
     stops                 SMALLINT     NOT NULL DEFAULT 0,
-    fare_cash              NUMERIC(10,2),
+    currency              VARCHAR(3)   NOT NULL,
+    fare_cash             NUMERIC(10,2),
     fare_pts              INTEGER,
     fare_hyb_pts          INTEGER,
-    fare_hyb_cash          NUMERIC(10,2),
+    fare_hyb_cash         NUMERIC(10,2),
     within_target         BOOLEAN      NOT NULL DEFAULT false,
     scraped_at            TIMESTAMPTZ  NOT NULL,
     created_at            TIMESTAMPTZ  NOT NULL DEFAULT now()
