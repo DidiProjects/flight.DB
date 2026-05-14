@@ -118,6 +118,7 @@ CREATE TABLE flight_offers (
 CREATE TABLE best_fares (
     id              UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    analysis_id     UUID,
     date            DATE          NOT NULL,
     is_return       BOOLEAN       NOT NULL DEFAULT false,
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
