@@ -124,6 +124,7 @@ CREATE TABLE best_fares (
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     amount          NUMERIC(12,2) NOT NULL,
     flight_offer_id UUID          NOT NULL REFERENCES flight_offers(id) ON DELETE CASCADE,
+    currency        VARCHAR(3)    NOT NULL DEFAULT 'BRL',
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
     UNIQUE(routine_id, date, is_return, fare_type)
 );
