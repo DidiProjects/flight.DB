@@ -166,6 +166,7 @@ CREATE INDEX idx_flight_offers_scraped_at ON flight_offers(scraped_at);
 CREATE INDEX idx_best_fares_routine_id    ON best_fares(routine_id);
 CREATE INDEX idx_notif_log_routine_id     ON notification_log(routine_id);
 CREATE INDEX idx_notif_log_sent_at        ON notification_log(sent_at);
+CREATE INDEX idx_notif_log_lookup         ON notification_log(routine_id, fare_type, type, sent_at DESC);
 CREATE INDEX idx_pw_reset_token           ON password_reset_tokens(token);
 CREATE INDEX idx_unsubscribe_token        ON unsubscribe_tokens(token);
 
