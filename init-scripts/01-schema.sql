@@ -150,6 +150,7 @@ CREATE TABLE best_fares (
 CREATE TABLE notification_log (
     id              UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    airline         VARCHAR(20)   REFERENCES airlines(code),
     type            VARCHAR(20)   NOT NULL CHECK (type      IN ('alert', 'best_of_day', 'end_of_period')),
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     outbound_amount NUMERIC(12,2),
@@ -187,6 +188,7 @@ CREATE INDEX idx_best_fares_airline          ON best_fares(routine_id, airline);
 CREATE INDEX idx_notif_log_routine_id        ON notification_log(routine_id);
 CREATE INDEX idx_notif_log_sent_at           ON notification_log(sent_at);
 CREATE INDEX idx_notif_log_lookup            ON notification_log(routine_id, fare_type, type, sent_at DESC);
+CREATE INDEX idx_notif_log_airline_lookup    ON notification_log(routine_id, fare_type, airline, sent_at DESC);
 CREATE INDEX idx_pw_reset_token              ON password_reset_tokens(token);
 CREATE INDEX idx_unsubscribe_token           ON unsubscribe_tokens(token);
 
