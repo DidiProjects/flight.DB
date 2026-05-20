@@ -58,7 +58,6 @@ CREATE TABLE routines (
     id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
     user_id         UUID         NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name            VARCHAR(100) NOT NULL,
-    airline         VARCHAR(20)  NOT NULL REFERENCES airlines(code),
     origin          CHAR(3)      NOT NULL,
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
@@ -77,8 +76,6 @@ CREATE TABLE routines (
     notification_frequency VARCHAR(10)  NOT NULL CHECK (notification_frequency IN ('hourly', 'daily', 'monthly')),
     end_of_period_time     TIME,
     cc_emails              JSONB        NOT NULL DEFAULT '[]',
-    pending_request_id     UUID,
-    pending_request_at     TIMESTAMPTZ,
     is_active              BOOLEAN      NOT NULL DEFAULT true,
     created_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
     updated_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
@@ -86,6 +83,24 @@ CREATE TABLE routines (
         target_cash IS NOT NULL OR target_pts IS NOT NULL OR
         target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL
     )
+);
+
+-- ─── routine_airlines ─────────────────────────────────────────────────────────
+
+CREATE TABLE routine_airlines (
+    routine_id UUID        NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    airline    VARCHAR(20) NOT NULL REFERENCES airlines(code),
+    PRIMARY KEY (routine_id, airline)
+);
+
+-- ─── routine_pending_requests ─────────────────────────────────────────────────
+
+CREATE TABLE routine_pending_requests (
+    routine_id   UUID        NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    airline      VARCHAR(20) NOT NULL REFERENCES airlines(code),
+    request_id   UUID        NOT NULL,
+    requested_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    PRIMARY KEY (routine_id, airline)
 );
 
 -- ─── flight_offers ───────────────────────────────────────────────────────────
@@ -118,6 +133,7 @@ CREATE TABLE flight_offers (
 CREATE TABLE best_fares (
     id              UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    airline         VARCHAR(20)   NOT NULL REFERENCES airlines(code),
     analysis_id     UUID,
     date            DATE          NOT NULL,
     is_return       BOOLEAN       NOT NULL DEFAULT false,
@@ -126,7 +142,7 @@ CREATE TABLE best_fares (
     flight_offer_id UUID          NOT NULL REFERENCES flight_offers(id) ON DELETE CASCADE,
     currency        VARCHAR(3)    NOT NULL DEFAULT 'BRL',
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
-    UNIQUE(routine_id, date, is_return, fare_type)
+    CONSTRAINT best_fares_unique UNIQUE (routine_id, airline, date, is_return, fare_type)
 );
 
 -- ─── notification_log ────────────────────────────────────────────────────────
@@ -157,18 +173,22 @@ CREATE TABLE unsubscribe_tokens (
 );
 
 -- ─── indexes ─────────────────────────────────────────────────────────────────
-CREATE INDEX idx_refresh_token            ON refresh_tokens(token);
-CREATE INDEX idx_routines_user_id         ON routines(user_id);
-CREATE INDEX idx_routines_is_active       ON routines(is_active);
-CREATE INDEX idx_flight_offers_routine_id ON flight_offers(routine_id);
-CREATE INDEX idx_flight_offers_date       ON flight_offers(date);
-CREATE INDEX idx_flight_offers_scraped_at ON flight_offers(scraped_at);
-CREATE INDEX idx_best_fares_routine_id    ON best_fares(routine_id);
-CREATE INDEX idx_notif_log_routine_id     ON notification_log(routine_id);
-CREATE INDEX idx_notif_log_sent_at        ON notification_log(sent_at);
-CREATE INDEX idx_notif_log_lookup         ON notification_log(routine_id, fare_type, type, sent_at DESC);
-CREATE INDEX idx_pw_reset_token           ON password_reset_tokens(token);
-CREATE INDEX idx_unsubscribe_token        ON unsubscribe_tokens(token);
+CREATE INDEX idx_refresh_token               ON refresh_tokens(token);
+CREATE INDEX idx_routines_user_id            ON routines(user_id);
+CREATE INDEX idx_routines_is_active          ON routines(is_active);
+CREATE INDEX idx_routine_airlines_routine_id ON routine_airlines(routine_id);
+CREATE INDEX idx_routine_airlines_airline    ON routine_airlines(airline);
+CREATE INDEX idx_routine_pending_routine_id  ON routine_pending_requests(routine_id);
+CREATE INDEX idx_flight_offers_routine_id    ON flight_offers(routine_id);
+CREATE INDEX idx_flight_offers_date          ON flight_offers(date);
+CREATE INDEX idx_flight_offers_scraped_at    ON flight_offers(scraped_at);
+CREATE INDEX idx_best_fares_routine_id       ON best_fares(routine_id);
+CREATE INDEX idx_best_fares_airline          ON best_fares(routine_id, airline);
+CREATE INDEX idx_notif_log_routine_id        ON notification_log(routine_id);
+CREATE INDEX idx_notif_log_sent_at           ON notification_log(sent_at);
+CREATE INDEX idx_notif_log_lookup            ON notification_log(routine_id, fare_type, type, sent_at DESC);
+CREATE INDEX idx_pw_reset_token              ON password_reset_tokens(token);
+CREATE INDEX idx_unsubscribe_token           ON unsubscribe_tokens(token);
 
 -- ─── updated_at trigger ──────────────────────────────────────────────────────
 
