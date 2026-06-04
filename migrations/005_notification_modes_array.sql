@@ -27,12 +27,28 @@ $$;
 ALTER TABLE routines ALTER COLUMN notification_modes SET NOT NULL;
 
 -- d) Add CHECK constraint for valid values
-ALTER TABLE routines ADD CONSTRAINT IF NOT EXISTS notification_modes_valid
-    CHECK (notification_modes <@ ARRAY['target', 'scheduled']);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'notification_modes_valid' AND conrelid = 'routines'::regclass
+    ) THEN
+        ALTER TABLE routines ADD CONSTRAINT notification_modes_valid
+            CHECK (notification_modes <@ ARRAY['target', 'scheduled']);
+    END IF;
+END
+$$;
 
 -- e) Add CHECK constraint: at least one item in the array
-ALTER TABLE routines ADD CONSTRAINT IF NOT EXISTS notification_modes_not_empty
-    CHECK (array_length(notification_modes, 1) >= 1);
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'notification_modes_not_empty' AND conrelid = 'routines'::regclass
+    ) THEN
+        ALTER TABLE routines ADD CONSTRAINT notification_modes_not_empty
+            CHECK (array_length(notification_modes, 1) >= 1);
+    END IF;
+END
+$$;
 
 -- f) Rename end_of_period_time to scheduled_time (idempotent via DO block)
 DO $$
@@ -57,12 +73,20 @@ WHERE 'scheduled' = ANY(notification_modes) AND scheduled_time IS NULL;
 -- i) Drop old at_least_one_target constraint and create new conditional one
 ALTER TABLE routines DROP CONSTRAINT IF EXISTS at_least_one_target;
 
-ALTER TABLE routines ADD CONSTRAINT IF NOT EXISTS at_least_one_target_if_target_mode
-    CHECK (
-        NOT ('target' = ANY(notification_modes))
-        OR (target_cash IS NOT NULL OR target_pts IS NOT NULL OR
-            target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL)
-    );
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM pg_constraint WHERE conname = 'at_least_one_target_if_target_mode' AND conrelid = 'routines'::regclass
+    ) THEN
+        ALTER TABLE routines ADD CONSTRAINT at_least_one_target_if_target_mode
+            CHECK (
+                NOT ('target' = ANY(notification_modes))
+                OR (target_cash IS NOT NULL OR target_pts IS NOT NULL OR
+                    target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL)
+            );
+    END IF;
+END
+$$;
 
 -- j) Drop the old notification_mode column
 ALTER TABLE routines DROP COLUMN IF EXISTS notification_mode;
