@@ -72,16 +72,19 @@ CREATE TABLE routines (
     target_hyb_cash NUMERIC(10,2),
     margin          NUMERIC(4,3) NOT NULL DEFAULT 0.1,
     priority        VARCHAR(10)  NOT NULL DEFAULT 'cash' CHECK (priority IN ('cash', 'pts', 'hyb')),
-    notification_mode      VARCHAR(30)  NOT NULL CHECK (notification_mode      IN ('alert_only', 'daily_best_and_alert', 'end_of_period')),
+    notification_modes     TEXT[]       NOT NULL,
     notification_frequency VARCHAR(10)  NOT NULL CHECK (notification_frequency IN ('hourly', 'daily', 'monthly')),
-    end_of_period_time     TIME,
+    scheduled_time         TIME         DEFAULT '20:00',
     cc_emails              JSONB        NOT NULL DEFAULT '[]',
     is_active              BOOLEAN      NOT NULL DEFAULT true,
     created_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
     updated_at             TIMESTAMPTZ  NOT NULL DEFAULT now(),
-    CONSTRAINT at_least_one_target CHECK (
-        target_cash IS NOT NULL OR target_pts IS NOT NULL OR
-        target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL
+    CONSTRAINT notification_modes_valid CHECK (notification_modes <@ ARRAY['target', 'scheduled']),
+    CONSTRAINT notification_modes_not_empty CHECK (array_length(notification_modes, 1) >= 1),
+    CONSTRAINT at_least_one_target_if_target_mode CHECK (
+        NOT ('target' = ANY(notification_modes))
+        OR (target_cash IS NOT NULL OR target_pts IS NOT NULL OR
+            target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL)
     )
 );
 
