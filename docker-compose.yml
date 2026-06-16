@@ -1,0 +1,33 @@
+services:
+  flight-db:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flight-db:latest
+    container_name: flight-db
+    environment:
+      POSTGRES_USER: ${PG_USER:-admin}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:-admin123}
+      POSTGRES_DB: ${PG_DB:-dev-flightDB}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@flight.local}
+      ADMIN_INITIAL_PASSWORD: ${ADMIN_INITIAL_PASSWORD:-changeme123}
+    ports:
+      - "5433:5432"
+    volumes:
+      - flight_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - flight-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-admin} -d ${PG_DB:-dev-flightDB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+networks:
+  flight-network:
+    name: flight-network
+    driver: bridge
+
+volumes:
+  flight_db_data:
