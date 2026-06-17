@@ -286,6 +286,12 @@ CREATE INDEX idx_flight_fares_scraped_at
 CREATE INDEX idx_flight_fares_job
   ON flight_fares(scraping_job_id);
 
+-- Impede inserir o mesmo voo duas vezes dentro de uma mesma coleta (scraping_job).
+-- Snapshots em jobs diferentes (histórico de preço) continuam permitidos.
+CREATE UNIQUE INDEX idx_flight_fares_no_dup
+  ON flight_fares(scraping_job_id, flight_date, is_return, flight_number)
+  WHERE flight_number IS NOT NULL;
+
 -- ─── flight_fares_daily ───────────────────────────────────────────────────────
 
 CREATE TABLE flight_fares_daily (
