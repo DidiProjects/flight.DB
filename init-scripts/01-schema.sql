@@ -269,6 +269,7 @@ CREATE TABLE flight_fares (
   arrival_time     TIME,
   duration_min     INT,
   stops            INT,
+  currency         VARCHAR(3),
 
   fare_cash        NUMERIC(10,2),
   fare_pts         NUMERIC(10,0),

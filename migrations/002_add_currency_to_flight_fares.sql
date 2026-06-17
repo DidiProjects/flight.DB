@@ -1,0 +1,2 @@
+ALTER TABLE flight_fares
+  ADD COLUMN IF NOT EXISTS currency VARCHAR(3);
