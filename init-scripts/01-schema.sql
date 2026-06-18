@@ -171,7 +171,7 @@ CREATE TABLE notification_log (
     id              UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id      UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
     airline         VARCHAR(20)   REFERENCES airlines(code),
-    type            VARCHAR(20)   NOT NULL CHECK (type      IN ('alert', 'best_of_day', 'end_of_period')),
+    type            VARCHAR(20)   NOT NULL CHECK (type      IN ('alert', 'scheduled')),
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     outbound_amount NUMERIC(12,2),
     return_amount   NUMERIC(12,2),
