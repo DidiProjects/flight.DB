@@ -310,6 +310,31 @@ CREATE TABLE flight_fares_daily (
   PRIMARY KEY (airline, origin, destination, flight_date, bucket_date, fare_type)
 );
 
+-- ─── analysis_runs ────────────────────────────────────────────────────────────
+-- Histórico de execuções de análise (uma linha por execução de scraping_job).
+-- Campos de rota denormalizados para sobreviver à limpeza de scraping_jobs.
+
+CREATE TABLE analysis_runs (
+  id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
+  scraping_job_id UUID         REFERENCES scraping_jobs(id) ON DELETE SET NULL,
+  request_id      UUID         NOT NULL,
+  airline         VARCHAR(20)  NOT NULL,
+  origin          VARCHAR(10)  NOT NULL,
+  destination     VARCHAR(10)  NOT NULL,
+  flight_date     DATE         NOT NULL,
+  status          VARCHAR(20)  NOT NULL DEFAULT 'running'
+                  CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked')),
+  error_message   TEXT,
+  fares_found     INT,
+  started_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
+  finished_at     TIMESTAMPTZ
+);
+
+CREATE INDEX idx_analysis_runs_match
+  ON analysis_runs(airline, origin, destination, flight_date, started_at DESC);
+CREATE INDEX idx_analysis_runs_request
+  ON analysis_runs(request_id);
+
 -- ─── updated_at trigger ──────────────────────────────────────────────────────
 
 CREATE OR REPLACE FUNCTION update_updated_at()
