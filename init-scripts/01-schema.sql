@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS airports (
   country_name    VARCHAR(255),
   city            VARCHAR(255),
   region          VARCHAR(255),
-  currency        VARCHAR(10),
+  currency        VARCHAR(10)  NOT NULL,
   updated_at      TIMESTAMPTZ  DEFAULT now(),
   CONSTRAINT airports_airline_airport_uk UNIQUE (airline_code, airport_code)
 );
