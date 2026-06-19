@@ -79,8 +79,6 @@ CREATE TABLE routines (
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
     outbound_end    DATE         NOT NULL,
-    return_start    DATE,
-    return_end      DATE,
     passengers      SMALLINT     NOT NULL DEFAULT 1,
     currency        VARCHAR(3)   NULL,
     target_cash     NUMERIC(10,2),
