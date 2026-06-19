@@ -1,46 +1,10 @@
 # flight.DB
 
-PostgreSQL database for the flight system. Defines the schema, seed scripts, and container configuration consumed by `flight.API`.
+PostgreSQL 16 (Docker) para o sistema de monitoramento de voos. Define schema, seed e container consumidos pelo `flight.API`. Timezone `America/Sao_Paulo`.
 
-## Stack
+## Subir o banco
 
-- **PostgreSQL 16** — relational database, timezone America/Sao_Paulo
-- **Docker** — custom image
-- **Docker Compose** — local development setup
-
-## Project structure
-
-```
-init-scripts/
-  01-schema.sql   ← 8 tables, indexes, updated_at triggers
-  02-seed.sh      ← airlines + initial admin user (bcrypt via pgcrypto)
-backup/           ← SQL dumps
-Dockerfile
-docker-compose.yaml
-design.md         ← full system design (flight.API + flight.DB)
-```
-
-## Schema
-
-| Table | Description |
-|---|---|
-| `users` | Authenticated users — roles: `admin`, `user` |
-| `refresh_tokens` | JWT refresh tokens (revocable) |
-| `password_reset_tokens` | Secure tokens for password recovery flow |
-| `airlines` | Available airlines with supported fare types (`has_brl`, `has_pts`, `has_hyb`) |
-| `routines` | User-defined flight monitoring routines (max 10 per user) |
-| `flight_offers` | Raw flight offers received from `scraping.API` |
-| `best_fares` | Best accumulated fare per routine/date/direction/type |
-| `notification_log` | Email dispatch history — used for anti-spam logic |
-| `unsubscribe_tokens` | One-time tokens for unsubscribing from email notifications |
-
-Full schema details and system design in [`design.md`](design.md).
-
-## Running locally
-
-**Requires:** Docker + Docker Compose.
-
-Create `.env` at the project root:
+Requer Docker + Docker Compose. `.env` na raiz (valores default em parênteses):
 
 ```env
 PG_USER=admin
@@ -50,65 +14,50 @@ ADMIN_EMAIL=admin@flight.local
 ADMIN_INITIAL_PASSWORD=changeme123
 ```
 
-Start the container:
-
 ```sh
-docker compose up
+docker compose up -d
 ```
 
-On first initialization Docker runs `init-scripts/` automatically — schema + seed. On subsequent starts the volume already exists and the scripts are skipped.
+Porta host: `5433` (→ 5432 no container). Container: `flight-db`. Volume: `flight_db_data`.
 
-## Useful commands
+## init-scripts vs migrations
+
+- `init-scripts/` — rodam **uma vez**, na primeira inicialização do volume (Docker `docker-entrypoint-initdb.d`):
+  - `01-schema.sql` — schema completo para banco novo.
+  - `02-seed.sh` — insere airline `azul` + admin (`ADMIN_EMAIL` / `ADMIN_INITIAL_PASSWORD`, senha via pgcrypto).
+- `migrations/NNN_*.sql` — alterações incrementais para bancos **já existentes**. Aplicar manualmente, em ordem. `01-schema.sql` já reflete o resultado de todas as migrations.
+
+Para banco novo, basta o `01-schema.sql`. Em produção, schema já criado → aplicar só a migration nova.
+
+## Tabelas
+
+Monitoramento / histórico de preços (núcleo):
+
+| Tabela | Função |
+|---|---|
+| `routines` | Rotinas de monitoramento (one-way; ida+volta = 2 rotinas). Targets, margem, modos de notificação. |
+| `routine_airlines` | Companhias associadas a cada rotina (N:N). |
+| `scraping_jobs` | Estado do scheduler: 1 linha por (airline, origin, destination, flight_date); status/retries/next_run. |
+| `flight_fares` | Histórico bruto de tarifas coletadas por job. |
+| `flight_fares_daily` | Agregado diário (min/max/avg) por rota/data/tipo. |
+| `analysis_runs` | Histórico de execuções de análise (1 por dispatch→callback), rota denormalizada. |
+| `notification_log` | Histórico de emails enviados (anti-spam). |
+
+Auth / suporte: `users`, `refresh_tokens`, `password_reset_tokens`, `airlines`, `airports`, `flight_offers`, `best_fares`, `unsubscribe_tokens`.
+
+Detalhes de colunas em [`design.md`](design.md).
+
+## Comandos úteis
 
 ```sh
-# Connect to the database
-docker exec -it flight-db psql -U admin -d dev-flightDB
+docker exec -it flight-db psql -U admin -d dev-flightDB   # conectar (\dt lista tabelas)
+docker logs flight-db                                     # logs
+docker compose down                                       # parar (mantém volume)
+docker compose down -v                                    # parar e APAGAR dados
 
-# List tables
-\dt
-
-# View logs
-docker logs flight-db
-
-# Stop container (keeps volume)
-docker compose down
-
-# Stop and remove everything including volume (⚠ destroys data)
-docker compose down -v
-```
-
-## Backup and restore
-
-```sh
-# Generate backup
+# backup / restore
 docker exec -t flight-db pg_dump -U admin -d dev-flightDB > backup/flight_backup.sql
-
-# Restore backup
 cat backup/flight_backup.sql | docker exec -i flight-db psql -U admin -d dev-flightDB
 ```
 
-## Deploy (GitHub Actions)
-
-The workflow `.github/workflows/deploy.yml` publishes via Tailscale + SSH + rsync.
-
-### Secrets
-
-| Secret | Description |
-|---|---|
-| `POSTGRES_DB` | Production database name |
-| `POSTGRES_USER` | PostgreSQL user |
-| `POSTGRES_PASSWORD` | PostgreSQL password |
-| `ADMIN_EMAIL` | Initial admin email |
-| `ADMIN_INITIAL_PASSWORD` | Admin provisional password (must be changed on first login) |
-| `SSH_PRIVATE_KEY` | SSH key for server access |
-| `TAILSCALE_CLIENT_SECRET` | Tailscale auth key |
-
-### Variables
-
-| Variable | Description |
-|---|---|
-| `TAILSCALE_IP` | Server IP via Tailscale |
-| `DB_PORT` | Exposed PostgreSQL port on the host (`5433`) |
-| `RESTORE_BACKUP` | Set to `true` to restore `backup/flight_backup.sql` on deploy |
-
-> **Note:** `init-scripts/` only run on the **first volume initialization**. To re-seed in production, clear the volume or run the scripts manually.
+> `init-scripts/` só rodam na primeira inicialização do volume. Para re-seed: limpar o volume ou rodar os scripts manualmente.

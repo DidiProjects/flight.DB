@@ -1,33 +1,20 @@
 # flight.DB — Instruções para Claude
 
-## Arquitetura atual (2026-04-24)
+PostgreSQL 16 em Docker (timezone `America/Sao_Paulo`), consumido pelo `flight.API`.
 
-- **flight.DB**: container Docker, PostgreSQL 16, timezone America/Sao_Paulo
-- **Deploy:** GitHub Actions → Tailscale + SSH → rsync → `docker build` → `docker run`
-- **Init scripts:** `init-scripts/01-schema.sql` (schema) + `init-scripts/02-seed.sh` (seed Airlines + admin)
-  - Executados **apenas na primeira inicialização** do volume Docker
-- **Design completo:** `design.md` na raiz — schema, rotas, fluxo, decisões aprovadas
+## Estrutura
 
-## Início de cada sessão
+- `init-scripts/01-schema.sql` — schema completo (banco novo). `init-scripts/02-seed.sh` — seed airline `azul` + admin. Rodam **só na primeira inicialização** do volume.
+- `migrations/NNN_*.sql` — alterações incrementais para bancos existentes; aplicar em ordem, manualmente. O `01-schema.sql` já reflete todas as migrations.
+- `docker-compose.yml` / `Dockerfile` — container `flight-db`, porta host `5433`, volume `flight_db_data`.
+- `design.md` — referência das tabelas.
 
-1. Ler `memory/MEMORY.md` (índice da memória persistente)
-2. Ler os arquivos relevantes ao trabalho da sessão:
-   - `memory/flight-api-design.md` — schema, rotas, fluxo, decisões aprovadas
-   - `memory/feedback-dev-style.md` — preferências de desenvolvimento
-3. Se o trabalho envolver mudanças de schema: ler `design.md`
+## Ao mudar o schema
 
-## Final de cada sessão (ou quando tokens estiverem acabando)
-
-Atualizar a memória com tudo que foi aprendido na sessão:
-- Mudanças de schema ou decisões de arquitetura → `memory/flight-api-design.md`
-- Preferências ou feedbacks do usuário → `memory/feedback-dev-style.md`
-- Atualizar `memory/MEMORY.md` se novos arquivos foram criados
+- Criar uma migration numerada nova **e** refletir a mudança em `01-schema.sql`.
+- Atualizar `design.md` e avisar para sincronizar o `flight.API` (queries/tipos).
 
 ## Regras permanentes
 
-### Dados sensíveis na memória
-NUNCA armazenar na memória: credenciais, senhas, tokens, API keys, dados pessoais (CPF, passaporte, cartão), ou qualquer informação que possa identificar pessoas reais.
-A memória fica versionada no git, dados sensíveis não devem entrar no histórico.
-
-### Autonomia
-Operar com máxima autonomia. Não pedir confirmação a não ser em risco real de perda de dados irreversível.
+- **Dados sensíveis:** NUNCA versionar credenciais, senhas, tokens, API keys ou dados pessoais reais.
+- **Autonomia:** operar com máxima autonomia; só pedir confirmação em risco real de perda de dados irreversível.
