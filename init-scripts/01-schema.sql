@@ -223,7 +223,7 @@ CREATE TABLE scraping_jobs (
   flight_date         DATE          NOT NULL,
 
   status              VARCHAR(20)   NOT NULL DEFAULT 'pending'
-                      CHECK (status IN ('pending', 'running', 'success', 'failed', 'dead')),
+                      CHECK (status IN ('pending', 'running', 'success', 'failed', 'dead', 'cancelled')),
   priority            INT           NOT NULL DEFAULT 0,
 
   retry_count         INT           NOT NULL DEFAULT 0,
@@ -238,6 +238,7 @@ CREATE TABLE scraping_jobs (
   running_timeout_min INT           NOT NULL DEFAULT 10,
 
   request_id          UUID,
+  cancel_requested_at TIMESTAMPTZ,
 
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
@@ -321,9 +322,11 @@ CREATE TABLE analysis_runs (
   destination     VARCHAR(10)  NOT NULL,
   flight_date     DATE         NOT NULL,
   status          VARCHAR(20)  NOT NULL DEFAULT 'running'
-                  CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked')),
+                  CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked', 'cancelled')),
   error_message   TEXT,
   fares_found     INT,
+  cancelled_by    UUID         REFERENCES users(id) ON DELETE SET NULL,
+  worker_id       VARCHAR(40),
   started_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
   finished_at     TIMESTAMPTZ
 );
@@ -332,6 +335,24 @@ CREATE INDEX idx_analysis_runs_match
   ON analysis_runs(airline, origin, destination, flight_date, started_at DESC);
 CREATE INDEX idx_analysis_runs_request
   ON analysis_runs(request_id);
+
+-- ─── analysis_run_events ──────────────────────────────────────────────────────
+-- Timeline append-only por execução (uma linha por evento de telemetria relevante).
+-- Alimenta o histórico detalhado e o replay na visão Admin em tempo real.
+
+CREATE TABLE analysis_run_events (
+  id          BIGINT      GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  request_id  UUID        NOT NULL,
+  seq         INT         NOT NULL,
+  ts          TIMESTAMPTZ NOT NULL DEFAULT now(),
+  type        VARCHAR(30) NOT NULL
+              CHECK (type IN ('queued', 'started', 'progress', 'log', 'finished')),
+  level       VARCHAR(10) CHECK (level IN ('info', 'warn', 'error')),
+  payload     JSONB       NOT NULL DEFAULT '{}'
+);
+
+CREATE UNIQUE INDEX idx_run_events_request_seq ON analysis_run_events(request_id, seq);
+CREATE INDEX idx_run_events_ts ON analysis_run_events(ts);
 
 -- ─── updated_at trigger ──────────────────────────────────────────────────────
 

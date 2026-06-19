@@ -39,7 +39,7 @@ PK (`routine_id`, `airline`) · `request_id` · `requested_at` — controle de s
 
 ### `scraping_jobs`
 Estado do scheduler. UNIQUE (`airline`, `origin`, `destination`, `flight_date`).
-`status` (`pending`|`running`|`success`|`failed`|`dead`) · `priority` · `retry_count`/`max_retries` · `next_run_at` · `last_success_at`/`last_failure_at`/`last_error` · `running_since`/`running_timeout_min` · `request_id`.
+`status` (`pending`|`running`|`success`|`failed`|`dead`|`cancelled`) · `priority` · `retry_count`/`max_retries` · `next_run_at` · `last_success_at`/`last_failure_at`/`last_error` · `running_since`/`running_timeout_min` · `request_id` · `cancel_requested_at` (intenção de cancelamento entregue na reconexão do worker).
 
 ### `flight_fares`
 Tarifas brutas coletadas, 1 por voo por job. `scraping_job_id` (FK CASCADE) · `flight_number`/`flight_date`/`is_return` · `origin`/`destination`/`airline` · `departure_time`/`arrival_time`/`duration_min`/`stops` · `currency` · `fare_cash`/`fare_pts`/`fare_hyb_pts`/`fare_hyb_cash` · `scraped_at`. Índice único impede duplicar o mesmo voo dentro de um job; snapshots em jobs diferentes são permitidos (histórico).
@@ -48,7 +48,10 @@ Tarifas brutas coletadas, 1 por voo por job. `scraping_job_id` (FK CASCADE) · `
 Agregado diário. PK (`airline`, `origin`, `destination`, `flight_date`, `bucket_date`, `fare_type`) com `fare_type` ∈ `cash`/`pts`/`hyb_pts`/`hyb_cash` · `price_min`/`price_max`/`price_avg`/`sample_count`.
 
 ### `analysis_runs`
-1 linha por execução (dispatch→callback). `scraping_job_id` (FK SET NULL) · `request_id` · rota denormalizada (`airline`/`origin`/`destination`/`flight_date`) · `status` (`running`|`success`|`failed`|`dead`|`blocked`) · `error_message` · `fares_found` · `started_at`/`finished_at`. Denormalizado para sobreviver à limpeza de `scraping_jobs`.
+1 linha por execução (dispatch→callback). `scraping_job_id` (FK SET NULL) · `request_id` · rota denormalizada (`airline`/`origin`/`destination`/`flight_date`) · `status` (`running`|`success`|`failed`|`dead`|`blocked`|`cancelled`) · `error_message` · `fares_found` · `cancelled_by` (FK users SET NULL, auditoria) · `worker_id` · `started_at`/`finished_at`. Denormalizado para sobreviver à limpeza de `scraping_jobs`.
+
+### `analysis_run_events`
+Timeline append-only por execução (histórico detalhado + replay na visão Admin em tempo real). `id` (BIGINT IDENTITY) · `request_id` (casa com `analysis_runs.request_id`) · `seq` (sequência monotônica por job) · `ts` · `type` (`queued`|`started`|`progress`|`log`|`finished`) · `level` (`info`|`warn`|`error`) · `payload` (JSONB). UNIQUE (`request_id`, `seq`) para dedup/ordenação.
 
 ## Notificações e ofertas (legado de avaliação por rotina)
 
