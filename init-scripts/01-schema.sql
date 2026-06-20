@@ -239,16 +239,21 @@ CREATE TABLE scraping_jobs (
 
   request_id          UUID,
 
+  -- Dono do job. Dedup é por usuário: jobs de usuários distintos na mesma
+  -- rota+data+companhia são linhas separadas. Jobs legados ficam com NULL.
+  user_id             UUID          REFERENCES users(id) ON DELETE CASCADE,
+
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
 
-  UNIQUE (airline, origin, destination, flight_date)
+  CONSTRAINT scraping_jobs_owner_key UNIQUE (airline, origin, destination, flight_date, user_id)
 );
 
 CREATE INDEX idx_scraping_jobs_status_next_run ON scraping_jobs(status, next_run_at);
 CREATE INDEX idx_scraping_jobs_airline_status  ON scraping_jobs(airline, status);
 CREATE INDEX idx_scraping_jobs_flight_date     ON scraping_jobs(flight_date);
 CREATE INDEX idx_scraping_jobs_request_id      ON scraping_jobs(request_id) WHERE request_id IS NOT NULL;
+CREATE INDEX idx_scraping_jobs_user_id         ON scraping_jobs(user_id);
 
 -- ─── flight_fares ─────────────────────────────────────────────────────────────
 
