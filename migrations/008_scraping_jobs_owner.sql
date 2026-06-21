@@ -11,6 +11,13 @@
 ALTER TABLE scraping_jobs
   ADD COLUMN user_id UUID REFERENCES users(id) ON DELETE CASCADE;
 
+-- Ciclo de vida separado do status de execução: quando a rota perde a rotina
+-- ativa, o job é "aposentado" (orphaned_at = NOW()) em vez de virar 'dead' —
+-- assim o status da última execução (ex.: success) é preservado. orphaned_at
+-- IS NULL = ativo; é o que decide se o job entra no pool de despacho.
+ALTER TABLE scraping_jobs
+  ADD COLUMN orphaned_at TIMESTAMPTZ;
+
 ALTER TABLE scraping_jobs
   DROP CONSTRAINT IF EXISTS scraping_jobs_airline_origin_destination_flight_date_key;
 

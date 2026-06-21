@@ -243,6 +243,10 @@ CREATE TABLE scraping_jobs (
   -- rota+data+companhia são linhas separadas. Jobs legados ficam com NULL.
   user_id             UUID          REFERENCES users(id) ON DELETE CASCADE,
 
+  -- Ciclo de vida (independe do status de execução). Setado quando a rota
+  -- perde a rotina ativa; NULL = ativo. Decide se o job entra no despacho.
+  orphaned_at         TIMESTAMPTZ,
+
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
 
