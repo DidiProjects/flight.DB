@@ -45,7 +45,7 @@ CREATE TABLE password_reset_tokens (
 CREATE TABLE airlines (
     code      VARCHAR(20)  PRIMARY KEY,
     name      VARCHAR(100) NOT NULL,
-    currency  VARCHAR(3)   NOT NULL DEFAULT 'BRL',
+    currency  VARCHAR(3),
     active    BOOLEAN      NOT NULL DEFAULT true,
     has_cash  BOOLEAN      NOT NULL DEFAULT true,
     has_pts   BOOLEAN      NOT NULL DEFAULT false,

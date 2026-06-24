@@ -17,10 +17,11 @@ Admin inserido no seed (`02-seed.sh`). `must_change_password=true` bloqueia aces
 ## Catálogo
 
 ### `airlines`
-`code` PK (ex. `azul`) · `name` · `currency` (default `BRL`) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul`.
+`code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` com `currency='BRL'`.
+`currency` é opcional por companhia: quando preenchido (ex. Latam/Azul, sempre BRL) tem **prioridade máxima** na resolução da moeda da rotina; quando `NULL`, a moeda é resolvida dinamicamente.
 
 ### `airports`
-`airline_code` (FK) + `airport_code` UNIQUE · `name` · `timezone` · `country_code`/`country_name` · `city` · `region` · `currency` NOT NULL. A moeda da rotina é resolvida pela moeda do aeroporto de origem.
+`airline_code` (FK) + `airport_code` UNIQUE · `name` · `timezone` · `country_code`/`country_name` · `city` · `region` · `currency` NOT NULL. A moeda da rotina é resolvida, em ordem: (1) `airlines.currency`, se definida; (2) `flight_fares.currency` de um job já coletado para o trajeto/companhia; (3) moeda do aeroporto de ORIGEM; (4) indefinida.
 
 ## Rotinas
 

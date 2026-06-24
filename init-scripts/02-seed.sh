@@ -3,8 +3,8 @@ set -e
 
 # Seed inicial: companhias aéreas
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<EOSQL
-INSERT INTO airlines (code, name, active)
-VALUES ('azul', 'Azul Linhas Aéreas', true)
+INSERT INTO airlines (code, name, currency, active)
+VALUES ('azul', 'Azul Linhas Aéreas', 'BRL', true)
 ON CONFLICT (code) DO NOTHING;
 EOSQL
 
