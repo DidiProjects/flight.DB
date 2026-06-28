@@ -264,6 +264,7 @@ CREATE INDEX idx_scraping_jobs_request_id      ON scraping_jobs(request_id) WHER
 CREATE TABLE flight_fares (
   id               UUID          PRIMARY KEY DEFAULT gen_random_uuid(),
   scraping_job_id  UUID          NOT NULL REFERENCES scraping_jobs(id) ON DELETE CASCADE,
+  request_id       UUID,
 
   flight_number    VARCHAR(20),
   flight_date      DATE          NOT NULL,
@@ -292,12 +293,17 @@ CREATE INDEX idx_flight_fares_scraped_at
   ON flight_fares(scraped_at);
 CREATE INDEX idx_flight_fares_job
   ON flight_fares(scraping_job_id);
+CREATE INDEX idx_flight_fares_request_id
+  ON flight_fares(request_id) WHERE request_id IS NOT NULL;
 
--- Impede inserir o mesmo voo duas vezes dentro de uma mesma coleta (scraping_job).
--- Snapshots em jobs diferentes (histórico de preço) continuam permitidos.
+-- Impede inserir o mesmo voo duas vezes dentro de uma mesma EXECUÇÃO (request_id).
+-- O discriminador é request_id, não scraping_job_id: com scraping_jobs por rota,
+-- o job é permanente, então usar scraping_job_id aqui congelaria o snapshot na
+-- primeira coleta. Snapshots de execuções diferentes (histórico de preço) são
+-- preservados — cada run tem request_id próprio.
 CREATE UNIQUE INDEX idx_flight_fares_no_dup
-  ON flight_fares(scraping_job_id, flight_date, is_return, flight_number)
-  WHERE flight_number IS NOT NULL;
+  ON flight_fares(request_id, flight_date, is_return, flight_number)
+  WHERE flight_number IS NOT NULL AND request_id IS NOT NULL;
 
 -- ─── flight_fares_daily ───────────────────────────────────────────────────────
 
