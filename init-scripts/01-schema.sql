@@ -235,7 +235,12 @@ CREATE TABLE scraping_jobs (
   last_error          TEXT,
 
   running_since       TIMESTAMPTZ,
-  running_timeout_min INT           NOT NULL DEFAULT 10,
+  running_timeout_min INT           NOT NULL DEFAULT 20,
+  -- Setado na telemetria job.started (início real do scrape). NULL = na fila.
+  started_at          TIMESTAMPTZ,
+  -- Último worker.heartbeat/snapshot que listou este job (lease). Para de avançar
+  -- quando o worker some → o job é reclamado.
+  last_heartbeat_at   TIMESTAMPTZ,
 
   request_id          UUID,
 
