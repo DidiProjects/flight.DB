@@ -62,6 +62,9 @@ Melhor tarifa acumulada. UNIQUE (`routine_id`, `airline`, `date`, `is_return`, `
 ### `notification_log`
 Histórico de emails (anti-spam). `routine_id` · `airline` · `type` (`alert`|`scheduled`) · `fare_type` (`cash`|`pts`|`hyb`) · `outbound_amount`/`return_amount` · `email_to`/`email_cc` · `sent_at`.
 
+### `target_alert_state`
+Watermark do alerta `target` por célula do grid. PK (`routine_id`, `flight_date`, `fare_type` ∈ `cash`/`pts`/`hyb`) · `notified_amount` (melhor preço já alertado para aquela data) · `notified_airline` · `notified_at`/`updated_at`. Fonte de verdade do anti-repetição: o alerta só re-dispara quando o melhor preço de uma data cai abaixo do `notified_amount` daquela data (upsert monotônico-descendente). Limpeza diária remove `flight_date < CURRENT_DATE`; `ON DELETE CASCADE` cobre rotina removida.
+
 ## Triggers
 
 `update_updated_at()` atualiza `updated_at` em `users`, `routines`, `best_fares`, `scraping_jobs`.

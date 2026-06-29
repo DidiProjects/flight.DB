@@ -178,6 +178,22 @@ CREATE TABLE notification_log (
     sent_at         TIMESTAMPTZ   NOT NULL DEFAULT now()
 );
 
+-- ─── target_alert_state ──────────────────────────────────────────────────────
+-- Watermark por célula (rotina × data × tipo de tarifa) do alerta 'target'.
+-- Fonte de verdade do anti-repetição: o alerta só re-dispara quando o melhor
+-- preço de UMA data cai abaixo do que já foi notificado para aquela data.
+-- Não é log (isso é notification_log) — é o estado vivo de "o que já avisamos".
+CREATE TABLE target_alert_state (
+    routine_id       UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    flight_date      DATE          NOT NULL,
+    fare_type        VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
+    notified_amount  NUMERIC(12,2) NOT NULL,
+    notified_airline VARCHAR(20),
+    notified_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
+    updated_at       TIMESTAMPTZ   NOT NULL DEFAULT now(),
+    PRIMARY KEY (routine_id, flight_date, fare_type)
+);
+
 -- ─── unsubscribe_tokens ──────────────────────────────────────────────────────
 
 CREATE TABLE unsubscribe_tokens (
@@ -210,6 +226,7 @@ CREATE INDEX idx_notif_log_routine_id        ON notification_log(routine_id);
 CREATE INDEX idx_notif_log_sent_at           ON notification_log(sent_at);
 CREATE INDEX idx_notif_log_lookup            ON notification_log(routine_id, fare_type, type, sent_at DESC);
 CREATE INDEX idx_notif_log_airline_lookup    ON notification_log(routine_id, fare_type, airline, sent_at DESC);
+CREATE INDEX idx_target_alert_state_flight_date ON target_alert_state(flight_date);
 CREATE INDEX idx_pw_reset_token              ON password_reset_tokens(token);
 CREATE INDEX idx_unsubscribe_token           ON unsubscribe_tokens(token);
 
