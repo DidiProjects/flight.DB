@@ -79,6 +79,11 @@ CREATE TABLE routines (
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
     outbound_end    DATE         NOT NULL,
+    -- Ida-e-volta como UMA intenção. A coleta segue por perna (scraping_jobs
+    -- inalterado); a rotina RT só deriva jobs das duas janelas.
+    trip_type       VARCHAR(20)  NOT NULL DEFAULT 'one_way' CHECK (trip_type IN ('one_way', 'round_trip')),
+    inbound_start   DATE,
+    inbound_end     DATE,
     passengers      SMALLINT     NOT NULL DEFAULT 1,
     currency        VARCHAR(3)   NULL,
     target_cash     NUMERIC(10,2),
@@ -100,6 +105,17 @@ CREATE TABLE routines (
         NOT ('target' = ANY(notification_modes))
         OR (target_cash IS NOT NULL OR target_pts IS NOT NULL OR
             target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL)
+    ),
+    -- Janela de volta obrigatória em round_trip, proibida em one_way.
+    CONSTRAINT routines_inbound_window_check CHECK (
+        (trip_type = 'one_way'    AND inbound_start IS NULL     AND inbound_end IS NULL)
+     OR (trip_type = 'round_trip' AND inbound_start IS NOT NULL AND inbound_end IS NOT NULL)
+    ),
+    CONSTRAINT routines_inbound_range_check CHECK (
+        inbound_start IS NULL OR inbound_end >= inbound_start
+    ),
+    CONSTRAINT routines_inbound_after_outbound_check CHECK (
+        inbound_start IS NULL OR inbound_start >= outbound_start
     )
 );
 
@@ -126,7 +142,7 @@ CREATE TABLE routine_pending_requests (
 CREATE TABLE flight_offers (
     id                    UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
     routine_id            UUID         NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
-    airline               VARCHAR(20)  NOT NULL,
+    airline               VARCHAR(20)  NOT NULL REFERENCES airlines(code),
     flight_number         VARCHAR(10)  NOT NULL,
     date                  DATE         NOT NULL,
     is_return             BOOLEAN      NOT NULL DEFAULT false,
@@ -214,6 +230,7 @@ CREATE INDEX IF NOT EXISTS idx_airports_city        ON airports(city);
 CREATE INDEX idx_refresh_token               ON refresh_tokens(token);
 CREATE INDEX idx_routines_user_id            ON routines(user_id);
 CREATE INDEX idx_routines_is_active          ON routines(is_active);
+CREATE INDEX idx_routines_trip_type          ON routines(trip_type);
 CREATE INDEX idx_routine_airlines_routine_id ON routine_airlines(routine_id);
 CREATE INDEX idx_routine_airlines_airline    ON routine_airlines(airline);
 CREATE INDEX idx_routine_pending_routine_id  ON routine_pending_requests(routine_id);
@@ -240,7 +257,7 @@ CREATE TABLE scraping_jobs (
   flight_date         DATE          NOT NULL,
 
   status              VARCHAR(20)   NOT NULL DEFAULT 'pending'
-                      CHECK (status IN ('pending', 'running', 'success', 'failed', 'dead')),
+                      CHECK (status IN ('pending', 'running', 'success', 'failed', 'dead', 'cancelled')),
   priority            INT           NOT NULL DEFAULT 0,
 
   retry_count         INT           NOT NULL DEFAULT 0,
@@ -264,6 +281,9 @@ CREATE TABLE scraping_jobs (
   -- Ciclo de vida (independe do status de execução). Setado quando a rota
   -- perde a rotina ativa; NULL = ativo. Decide se o job entra no despacho.
   orphaned_at         TIMESTAMPTZ,
+
+  -- Pedido de cancelamento registrado; o worker aborta via AbortSignal.
+  cancel_requested_at TIMESTAMPTZ,
 
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
@@ -353,9 +373,13 @@ CREATE TABLE analysis_runs (
   destination     VARCHAR(10)  NOT NULL,
   flight_date     DATE         NOT NULL,
   status          VARCHAR(20)  NOT NULL DEFAULT 'running'
-                  CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked')),
+                  CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked', 'cancelled')),
   error_message   TEXT,
   fares_found     INT,
+  -- Worker que assumiu a execução (telemetria realtime).
+  worker_id       VARCHAR(40),
+  -- Quem pediu o cancelamento; NULL quando não foi cancelada.
+  cancelled_by    UUID         REFERENCES users(id) ON DELETE SET NULL,
   started_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
   finished_at     TIMESTAMPTZ
 );
@@ -364,6 +388,23 @@ CREATE INDEX idx_analysis_runs_match
   ON analysis_runs(airline, origin, destination, flight_date, started_at DESC);
 CREATE INDEX idx_analysis_runs_request
   ON analysis_runs(request_id);
+
+-- ─── analysis_run_events ──────────────────────────────────────────────────────
+-- Timeline de eventos por request_id, alimentada pela telemetria do worker.
+-- É o que o FRONT consome para acompanhar a análise em tempo real.
+
+CREATE TABLE analysis_run_events (
+  id         BIGINT       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  request_id UUID         NOT NULL,
+  seq        INTEGER      NOT NULL,
+  ts         TIMESTAMPTZ  NOT NULL DEFAULT now(),
+  type       VARCHAR(30)  NOT NULL CHECK (type IN ('queued', 'started', 'progress', 'log', 'finished')),
+  level      VARCHAR(10)  CHECK (level IN ('info', 'warn', 'error')),
+  payload    JSONB        NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE UNIQUE INDEX idx_run_events_request_seq ON analysis_run_events(request_id, seq);
+CREATE INDEX        idx_run_events_ts          ON analysis_run_events(ts);
 
 -- ─── updated_at trigger ──────────────────────────────────────────────────────
 
