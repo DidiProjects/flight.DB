@@ -49,7 +49,11 @@ CREATE TABLE airlines (
     active    BOOLEAN      NOT NULL DEFAULT true,
     has_cash  BOOLEAN      NOT NULL DEFAULT true,
     has_pts   BOOLEAN      NOT NULL DEFAULT false,
-    has_hyb   BOOLEAN      NOT NULL DEFAULT false
+    has_hyb   BOOLEAN      NOT NULL DEFAULT false,
+    -- Sabe fazer busca ida-e-volta (uma sessão, duas pernas, total do par)?
+    -- Rotina round_trip só aceita companhia com isto true, senão o job de par
+    -- voltaria com pernas avulsas e sem bundle.
+    has_roundtrip BOOLEAN  NOT NULL DEFAULT false
 );
 
 -- ─── airports ────────────────────────────────────────────────────────────────
@@ -79,8 +83,9 @@ CREATE TABLE routines (
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
     outbound_end    DATE         NOT NULL,
-    -- Ida-e-volta como UMA intenção. A coleta segue por perna (scraping_jobs
-    -- inalterado); a rotina RT só deriva jobs das duas janelas.
+    -- Ida-e-volta como UMA intenção. A coleta de uma rotina RT é por PAR de
+    -- datas (scraping_jobs.return_date), não por perna avulsa: tarifa one-way
+    -- não serve para precificar RT, senão o desconto de bundle se perde.
     trip_type       VARCHAR(20)  NOT NULL DEFAULT 'one_way' CHECK (trip_type IN ('one_way', 'round_trip')),
     inbound_start   DATE,
     inbound_end     DATE,
@@ -278,6 +283,10 @@ CREATE TABLE scraping_jobs (
 
   request_id          UUID,
 
+  -- Coleta por PAR (round-trip): NULL = busca one-way; preenchido = busca
+  -- ida-e-volta com as duas datas fixas, para capturar o desconto de bundle.
+  return_date         DATE,
+
   -- Ciclo de vida (independe do status de execução). Setado quando a rota
   -- perde a rotina ativa; NULL = ativo. Decide se o job entra no despacho.
   orphaned_at         TIMESTAMPTZ,
@@ -288,13 +297,19 @@ CREATE TABLE scraping_jobs (
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
 
-  CONSTRAINT scraping_jobs_route_key UNIQUE (airline, origin, destination, flight_date)
+  -- NULLS NOT DISTINCT: sem isso cada job one-way (return_date NULL) viraria
+  -- uma linha nova a cada upsert, porque NULL != NULL.
+  CONSTRAINT scraping_jobs_route_key
+    UNIQUE NULLS NOT DISTINCT (airline, origin, destination, flight_date, return_date),
+  CONSTRAINT scraping_jobs_return_after_outbound_check
+    CHECK (return_date IS NULL OR return_date >= flight_date)
 );
 
 CREATE INDEX idx_scraping_jobs_status_next_run ON scraping_jobs(status, next_run_at);
 CREATE INDEX idx_scraping_jobs_airline_status  ON scraping_jobs(airline, status);
 CREATE INDEX idx_scraping_jobs_flight_date     ON scraping_jobs(flight_date);
 CREATE INDEX idx_scraping_jobs_request_id      ON scraping_jobs(request_id) WHERE request_id IS NOT NULL;
+CREATE INDEX idx_scraping_jobs_return_date     ON scraping_jobs(return_date) WHERE return_date IS NOT NULL;
 
 -- ─── flight_fares ─────────────────────────────────────────────────────────────
 
@@ -321,6 +336,20 @@ CREATE TABLE flight_fares (
   fare_hyb_pts     NUMERIC(10,0),
   fare_hyb_cash    NUMERIC(10,2),
 
+  -- Par de origem da tarifa. NULL = colhida numa busca one-way avulsa, e
+  -- portanto NÃO serve para precificar um round-trip.
+  return_date      DATE,
+
+  -- Voltas são precificadas no contexto da IDA escolhida (relação 1-para-N):
+  -- nas linhas de volta, o número do voo de ida que originou aquele preço.
+  paired_outbound_flight VARCHAR(20),
+
+  -- Total do par, gravado nas duas pernas da mesma busca RT.
+  bundle_cash      NUMERIC(10,2),
+  bundle_pts       NUMERIC(10,0),
+  bundle_hyb_pts   NUMERIC(10,0),
+  bundle_hyb_cash  NUMERIC(10,2),
+
   scraped_at       TIMESTAMPTZ   NOT NULL DEFAULT NOW()
 );
 
@@ -338,6 +367,14 @@ CREATE INDEX idx_flight_fares_request_id
 -- o job é permanente, então usar scraping_job_id aqui congelaria o snapshot na
 -- primeira coleta. Snapshots de execuções diferentes (histórico de preço) são
 -- preservados — cada run tem request_id próprio.
+CREATE INDEX idx_flight_fares_paired_outbound
+  ON flight_fares(request_id, paired_outbound_flight)
+  WHERE paired_outbound_flight IS NOT NULL;
+
+CREATE INDEX idx_flight_fares_pair
+  ON flight_fares(airline, origin, destination, flight_date, return_date)
+  WHERE return_date IS NOT NULL;
+
 CREATE UNIQUE INDEX idx_flight_fares_no_dup
   ON flight_fares(request_id, flight_date, is_return, flight_number)
   WHERE flight_number IS NOT NULL AND request_id IS NOT NULL;
@@ -372,6 +409,8 @@ CREATE TABLE analysis_runs (
   origin          VARCHAR(10)  NOT NULL,
   destination     VARCHAR(10)  NOT NULL,
   flight_date     DATE         NOT NULL,
+  -- Perna de volta quando a execução foi uma busca round-trip.
+  return_date     DATE,
   status          VARCHAR(20)  NOT NULL DEFAULT 'running'
                   CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked', 'cancelled')),
   error_message   TEXT,
