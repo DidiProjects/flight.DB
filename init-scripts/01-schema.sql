@@ -375,8 +375,12 @@ CREATE INDEX idx_flight_fares_pair
   ON flight_fares(airline, origin, destination, flight_date, return_date)
   WHERE return_date IS NOT NULL;
 
+-- paired_outbound_flight entra na chave porque a MESMA volta aparece na lista de
+-- várias idas, com preço potencialmente diferente em cada uma. Sem ela o
+-- ON CONFLICT DO NOTHING guardaria só a primeira combinação.
 CREATE UNIQUE INDEX idx_flight_fares_no_dup
-  ON flight_fares(request_id, flight_date, is_return, flight_number)
+  ON flight_fares(request_id, flight_date, is_return, flight_number, paired_outbound_flight)
+  NULLS NOT DISTINCT
   WHERE flight_number IS NOT NULL AND request_id IS NOT NULL;
 
 -- ─── flight_fares_daily ───────────────────────────────────────────────────────
