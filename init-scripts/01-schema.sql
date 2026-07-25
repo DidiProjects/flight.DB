@@ -344,6 +344,12 @@ CREATE TABLE flight_fares (
   -- nas linhas de volta, o número do voo de ida que originou aquele preço.
   paired_outbound_flight VARCHAR(20),
 
+  -- Só na IDA: as voltas existem, mas uma limitação conhecida impede vê-las (em
+  -- pontos a Azul exige login do TudoAzul). Volta indefinida — o par é exibido
+  -- sem total e não alerta. Volta que sumiu sem motivo NÃO recebe esta marca:
+  -- continua sendo dado corrompido.
+  inbound_unavailable BOOLEAN NOT NULL DEFAULT FALSE,
+
   -- Total do par, gravado nas duas pernas da mesma busca RT.
   bundle_cash      NUMERIC(10,2),
   bundle_pts       NUMERIC(10,0),
