@@ -179,7 +179,9 @@ CREATE TABLE best_fares (
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     amount          NUMERIC(12,2) NOT NULL,
     flight_offer_id UUID          NOT NULL REFERENCES flight_offers(id) ON DELETE CASCADE,
-    currency        VARCHAR(3)    NOT NULL DEFAULT 'BRL',
+    -- Sem DEFAULT: carimbar Real no que não é Real foi como a moeda errada
+    -- entrou em silêncio (015).
+    currency        VARCHAR(3)    NOT NULL,
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
     CONSTRAINT best_fares_unique UNIQUE (routine_id, airline, date, is_return, fare_type)
 );
@@ -209,6 +211,10 @@ CREATE TABLE target_alert_state (
     flight_date      DATE          NOT NULL,
     fare_type        VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     notified_amount  NUMERIC(12,2) NOT NULL,
+    -- Composição ORIGINAL do preço alertado: [{direction, currency, amount}...].
+    -- É o que faz "o preço caiu" significar preço e não câmbio — composição
+    -- idêntica não alerta, por mais que a conversão para Real tenha mudado (015).
+    notified_breakdown JSONB,
     notified_airline VARCHAR(20),
     notified_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
     updated_at       TIMESTAMPTZ   NOT NULL DEFAULT now(),
@@ -329,7 +335,9 @@ CREATE TABLE flight_fares (
   arrival_time     TIME,
   duration_min     INT,
   stops            INT,
-  currency         VARCHAR(3),
+  -- Moeda lida do TEXTO do preço no scraping. Obrigatória: tarifa sem moeda
+  -- seria comparada com um alvo em outra unidade sem nada reclamar (015).
+  currency         VARCHAR(3)   NOT NULL,
 
   fare_cash        NUMERIC(10,2),
   fare_pts         NUMERIC(10,0),
