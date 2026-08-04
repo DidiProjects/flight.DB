@@ -45,7 +45,9 @@ CREATE TABLE password_reset_tokens (
 CREATE TABLE airlines (
     code      VARCHAR(20)  PRIMARY KEY,
     name      VARCHAR(100) NOT NULL,
-    currency  VARCHAR(3),
+    -- Sem `currency`: a moeda da coleta vem do texto do preço no scraping, e a
+    -- do alvo é sempre Real. O cadastro por companhia só produzia palpite
+    -- errado (016).
     active    BOOLEAN      NOT NULL DEFAULT true,
     has_cash  BOOLEAN      NOT NULL DEFAULT true,
     has_pts   BOOLEAN      NOT NULL DEFAULT false,
