@@ -346,6 +346,18 @@ CREATE TABLE flight_fares (
   fare_hyb_pts     NUMERIC(10,0),
   fare_hyb_cash    NUMERIC(10,2),
 
+  -- Valor em Real CONGELADO na coleta (017). Converter na leitura fazia a régua
+  -- de 30 dias mudar com a cotação do dia — queda da libra virava "o voo
+  -- baratear" — e batia na API de câmbio a cada abertura de histórico. Com a
+  -- taxa gravada, a soma de par cabe em SQL mesmo quando as pernas vêm de
+  -- mercados diferentes (BA saindo de LHR: ida GBP, volta BRL).
+  fare_cash_brl     NUMERIC(12,2),
+  fare_hyb_cash_brl NUMERIC(12,2),
+  -- Quantos BRL valia 1 unidade de `currency` na coleta; 1 se já era Real.
+  fx_rate           NUMERIC(18,8),
+  -- Data da COTAÇÃO (o BCE publica em dia útil), não a da coleta.
+  fx_rate_date      DATE,
+
   -- Par de origem da tarifa. NULL = colhida numa busca one-way avulsa, e
   -- portanto NÃO serve para precificar um round-trip.
   return_date      DATE,
