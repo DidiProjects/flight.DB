@@ -45,16 +45,16 @@ CREATE TABLE password_reset_tokens (
 CREATE TABLE airlines (
     code      VARCHAR(20)  PRIMARY KEY,
     name      VARCHAR(100) NOT NULL,
-    -- Sem `currency`: a moeda da coleta vem do texto do preço no scraping, e a
-    -- do alvo é sempre Real. O cadastro por companhia só produzia palpite
-    -- errado (016).
+    -- No `currency` column: the collected currency comes from the price text in
+    -- scraping, and the target is always in Real. Per-airline registration only
+    -- produced a wrong guess (016).
     active    BOOLEAN      NOT NULL DEFAULT true,
     has_cash  BOOLEAN      NOT NULL DEFAULT true,
     has_pts   BOOLEAN      NOT NULL DEFAULT false,
     has_hyb   BOOLEAN      NOT NULL DEFAULT false,
-    -- Sabe fazer busca ida-e-volta (uma sessão, duas pernas, total do par)?
-    -- Rotina round_trip só aceita companhia com isto true, senão o job de par
-    -- voltaria com pernas avulsas e sem bundle.
+    -- Can it search round-trip (one session, two legs, pair total)? A round_trip
+    -- routine only accepts an airline with this true, otherwise the pair job
+    -- would come back with loose legs and no bundle.
     has_roundtrip BOOLEAN  NOT NULL DEFAULT false
 );
 
@@ -85,9 +85,9 @@ CREATE TABLE routines (
     destination     CHAR(3)      NOT NULL,
     outbound_start  DATE         NOT NULL,
     outbound_end    DATE         NOT NULL,
-    -- Ida-e-volta como UMA intenção. A coleta de uma rotina RT é por PAR de
-    -- datas (scraping_jobs.return_date), não por perna avulsa: tarifa one-way
-    -- não serve para precificar RT, senão o desconto de bundle se perde.
+    -- Round-trip as ONE intent. An RT routine collects by PAIR of dates
+    -- (scraping_jobs.return_date), never by loose leg: a one-way fare cannot
+    -- price an RT without losing the bundle discount.
     trip_type       VARCHAR(20)  NOT NULL DEFAULT 'one_way' CHECK (trip_type IN ('one_way', 'round_trip')),
     inbound_start   DATE,
     inbound_end     DATE,
@@ -113,7 +113,7 @@ CREATE TABLE routines (
         OR (target_cash IS NOT NULL OR target_pts IS NOT NULL OR
             target_hyb_pts IS NOT NULL OR target_hyb_cash IS NOT NULL)
     ),
-    -- Janela de volta obrigatória em round_trip, proibida em one_way.
+    -- Return window is required on round_trip and forbidden on one_way.
     CONSTRAINT routines_inbound_window_check CHECK (
         (trip_type = 'one_way'    AND inbound_start IS NULL     AND inbound_end IS NULL)
      OR (trip_type = 'round_trip' AND inbound_start IS NOT NULL AND inbound_end IS NOT NULL)
@@ -181,8 +181,8 @@ CREATE TABLE best_fares (
     fare_type       VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     amount          NUMERIC(12,2) NOT NULL,
     flight_offer_id UUID          NOT NULL REFERENCES flight_offers(id) ON DELETE CASCADE,
-    -- Sem DEFAULT: carimbar Real no que não é Real foi como a moeda errada
-    -- entrou em silêncio (015).
+    -- No DEFAULT: stamping Real on what is not Real is how the wrong currency
+    -- got in silently (015).
     currency        VARCHAR(3)    NOT NULL,
     updated_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
     CONSTRAINT best_fares_unique UNIQUE (routine_id, airline, date, is_return, fare_type)
@@ -204,18 +204,18 @@ CREATE TABLE notification_log (
 );
 
 -- ─── target_alert_state ──────────────────────────────────────────────────────
--- Watermark por célula (rotina × data × tipo de tarifa) do alerta 'target'.
--- Fonte de verdade do anti-repetição: o alerta só re-dispara quando o melhor
--- preço de UMA data cai abaixo do que já foi notificado para aquela data.
--- Não é log (isso é notification_log) — é o estado vivo de "o que já avisamos".
+-- Watermark per cell (routine × date × fare type) for the 'target' alert.
+-- Source of truth for the anti-repeat rule: the alert only fires again when the
+-- best price of ONE date drops below what was already notified for that date.
+-- Not a log (that is notification_log) — this is the live "what we already sent".
 CREATE TABLE target_alert_state (
     routine_id       UUID          NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
     flight_date      DATE          NOT NULL,
     fare_type        VARCHAR(10)   NOT NULL CHECK (fare_type IN ('cash', 'pts', 'hyb')),
     notified_amount  NUMERIC(12,2) NOT NULL,
-    -- Composição ORIGINAL do preço alertado: [{direction, currency, amount}...].
-    -- É o que faz "o preço caiu" significar preço e não câmbio — composição
-    -- idêntica não alerta, por mais que a conversão para Real tenha mudado (015).
+    -- ORIGINAL composition of the alerted price: [{direction, currency, amount}...].
+    -- It is what makes "the price dropped" mean price and not exchange rate — an
+    -- identical composition never alerts, however much the Real conversion moved (015).
     notified_breakdown JSONB,
     notified_airline VARCHAR(20),
     notified_at      TIMESTAMPTZ   NOT NULL DEFAULT now(),
@@ -283,30 +283,30 @@ CREATE TABLE scraping_jobs (
 
   running_since       TIMESTAMPTZ,
   running_timeout_min INT           NOT NULL DEFAULT 20,
-  -- Setado na telemetria job.started (início real do scrape). NULL = na fila.
+  -- Set by job.started telemetry (the real start of the scrape). NULL = queued.
   started_at          TIMESTAMPTZ,
-  -- Último worker.heartbeat/snapshot que listou este job (lease). Para de avançar
-  -- quando o worker some → o job é reclamado.
+  -- Last worker.heartbeat/snapshot that listed this job (lease). Stops advancing
+  -- when the worker disappears → the job is reclaimed.
   last_heartbeat_at   TIMESTAMPTZ,
 
   request_id          UUID,
 
-  -- Coleta por PAR (round-trip): NULL = busca one-way; preenchido = busca
-  -- ida-e-volta com as duas datas fixas, para capturar o desconto de bundle.
+  -- Collection by PAIR (round-trip): NULL = one-way search; filled = round-trip
+  -- search with both dates fixed, to capture the bundle discount.
   return_date         DATE,
 
-  -- Ciclo de vida (independe do status de execução). Setado quando a rota
-  -- perde a rotina ativa; NULL = ativo. Decide se o job entra no despacho.
+  -- Lifecycle, independent of execution status. Set when the route loses its
+  -- active routine; NULL = active. Decides whether the job enters dispatch.
   orphaned_at         TIMESTAMPTZ,
 
-  -- Pedido de cancelamento registrado; o worker aborta via AbortSignal.
+  -- Cancellation request recorded; the worker aborts through AbortSignal.
   cancel_requested_at TIMESTAMPTZ,
 
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
 
-  -- NULLS NOT DISTINCT: sem isso cada job one-way (return_date NULL) viraria
-  -- uma linha nova a cada upsert, porque NULL != NULL.
+  -- NULLS NOT DISTINCT: without it every one-way job (return_date NULL) would
+  -- become a new row on each upsert, because NULL != NULL.
   CONSTRAINT scraping_jobs_route_key
     UNIQUE NULLS NOT DISTINCT (airline, origin, destination, flight_date, return_date),
   CONSTRAINT scraping_jobs_return_after_outbound_check
@@ -337,8 +337,8 @@ CREATE TABLE flight_fares (
   arrival_time     TIME,
   duration_min     INT,
   stops            INT,
-  -- Moeda lida do TEXTO do preço no scraping. Obrigatória: tarifa sem moeda
-  -- seria comparada com um alvo em outra unidade sem nada reclamar (015).
+  -- Currency read from the price TEXT in scraping. Required: a fare without one
+  -- would be compared against a target in another unit and nothing would complain (015).
   currency         VARCHAR(3)   NOT NULL,
 
   fare_cash        NUMERIC(10,2),
@@ -346,33 +346,33 @@ CREATE TABLE flight_fares (
   fare_hyb_pts     NUMERIC(10,0),
   fare_hyb_cash    NUMERIC(10,2),
 
-  -- Valor em Real CONGELADO na coleta (017). Converter na leitura fazia a régua
-  -- de 30 dias mudar com a cotação do dia — queda da libra virava "o voo
-  -- baratear" — e batia na API de câmbio a cada abertura de histórico. Com a
-  -- taxa gravada, a soma de par cabe em SQL mesmo quando as pernas vêm de
-  -- mercados diferentes (BA saindo de LHR: ida GBP, volta BRL).
+  -- Value in Real FROZEN at collection time (017). Converting on read made the
+  -- 30-day baseline move with the day rate — a falling pound looked like "the
+  -- flight got cheaper" — and hit the FX API on every history open. With the rate
+  -- stored, the pair total fits in SQL even when the legs come from different
+  -- markets (BA out of LHR: outbound GBP, inbound BRL).
   fare_cash_brl     NUMERIC(12,2),
   fare_hyb_cash_brl NUMERIC(12,2),
-  -- Quantos BRL valia 1 unidade de `currency` na coleta; 1 se já era Real.
+  -- How many BRL one unit of `currency` was worth at collection; 1 if already Real.
   fx_rate           NUMERIC(18,8),
-  -- Data da COTAÇÃO (o BCE publica em dia útil), não a da coleta.
+  -- Date of the QUOTE (the ECB publishes on business days), not of the collection.
   fx_rate_date      DATE,
 
-  -- Par de origem da tarifa. NULL = colhida numa busca one-way avulsa, e
-  -- portanto NÃO serve para precificar um round-trip.
+  -- Pair the fare came from. NULL = collected in a loose one-way search, and
+  -- therefore NOT usable to price a round-trip.
   return_date      DATE,
 
-  -- Voltas são precificadas no contexto da IDA escolhida (relação 1-para-N):
-  -- nas linhas de volta, o número do voo de ida que originou aquele preço.
+  -- Returns are priced in the context of the chosen OUTBOUND (a 1-to-N relation):
+  -- on return rows, the outbound flight number that produced that price.
   paired_outbound_flight VARCHAR(20),
 
-  -- Só na IDA: as voltas existem, mas uma limitação conhecida impede vê-las (em
-  -- pontos a Azul exige login do TudoAzul). Volta indefinida — o par é exibido
-  -- sem total e não alerta. Volta que sumiu sem motivo NÃO recebe esta marca:
-  -- continua sendo dado corrompido.
+  -- Outbound only: the returns exist, but a known limitation hides them (on points
+  -- Azul requires a TudoAzul login). Return undefined — the pair is shown without
+  -- a total and does not alert. A return that vanished for no reason does NOT get
+  -- this mark: that is still corrupted data.
   inbound_unavailable BOOLEAN NOT NULL DEFAULT FALSE,
 
-  -- Total do par, gravado nas duas pernas da mesma busca RT.
+  -- Pair total, written on both legs of the same RT search.
   bundle_cash      NUMERIC(10,2),
   bundle_pts       NUMERIC(10,0),
   bundle_hyb_pts   NUMERIC(10,0),
@@ -390,11 +390,11 @@ CREATE INDEX idx_flight_fares_job
 CREATE INDEX idx_flight_fares_request_id
   ON flight_fares(request_id) WHERE request_id IS NOT NULL;
 
--- Impede inserir o mesmo voo duas vezes dentro de uma mesma EXECUÇÃO (request_id).
--- O discriminador é request_id, não scraping_job_id: com scraping_jobs por rota,
--- o job é permanente, então usar scraping_job_id aqui congelaria o snapshot na
--- primeira coleta. Snapshots de execuções diferentes (histórico de preço) são
--- preservados — cada run tem request_id próprio.
+-- Prevents inserting the same flight twice within one RUN (request_id).
+-- The discriminator is request_id, not scraping_job_id: with scraping_jobs per
+-- route the job is permanent, so scraping_job_id here would freeze the snapshot
+-- at the first collection. Snapshots from different runs (price history) are
+-- preserved — each run has its own request_id.
 CREATE INDEX idx_flight_fares_paired_outbound
   ON flight_fares(request_id, paired_outbound_flight)
   WHERE paired_outbound_flight IS NOT NULL;
@@ -403,9 +403,9 @@ CREATE INDEX idx_flight_fares_pair
   ON flight_fares(airline, origin, destination, flight_date, return_date)
   WHERE return_date IS NOT NULL;
 
--- paired_outbound_flight entra na chave porque a MESMA volta aparece na lista de
--- várias idas, com preço potencialmente diferente em cada uma. Sem ela o
--- ON CONFLICT DO NOTHING guardaria só a primeira combinação.
+-- paired_outbound_flight is part of the key because the SAME return appears in the
+-- list of several outbounds, potentially at a different price in each. Without it
+-- ON CONFLICT DO NOTHING would keep only the first combination.
 CREATE UNIQUE INDEX idx_flight_fares_no_dup
   ON flight_fares(request_id, flight_date, is_return, flight_number, paired_outbound_flight)
   NULLS NOT DISTINCT
@@ -430,8 +430,8 @@ CREATE TABLE flight_fares_daily (
 );
 
 -- ─── analysis_runs ────────────────────────────────────────────────────────────
--- Histórico de execuções de análise (uma linha por execução de scraping_job).
--- Campos de rota denormalizados para sobreviver à limpeza de scraping_jobs.
+-- History of analysis runs (one row per scraping_job execution).
+-- Route fields are denormalised to survive the scraping_jobs cleanup.
 
 CREATE TABLE analysis_runs (
   id              UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -441,15 +441,15 @@ CREATE TABLE analysis_runs (
   origin          VARCHAR(10)  NOT NULL,
   destination     VARCHAR(10)  NOT NULL,
   flight_date     DATE         NOT NULL,
-  -- Perna de volta quando a execução foi uma busca round-trip.
+  -- Return leg when the run was a round-trip search.
   return_date     DATE,
   status          VARCHAR(20)  NOT NULL DEFAULT 'running'
                   CHECK (status IN ('running', 'success', 'failed', 'dead', 'blocked', 'cancelled')),
   error_message   TEXT,
   fares_found     INT,
-  -- Worker que assumiu a execução (telemetria realtime).
+  -- Worker that took the run (realtime telemetry).
   worker_id       VARCHAR(40),
-  -- Quem pediu o cancelamento; NULL quando não foi cancelada.
+  -- Who asked for the cancellation; NULL when it was not cancelled.
   cancelled_by    UUID         REFERENCES users(id) ON DELETE SET NULL,
   started_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
   finished_at     TIMESTAMPTZ
@@ -461,8 +461,8 @@ CREATE INDEX idx_analysis_runs_request
   ON analysis_runs(request_id);
 
 -- ─── analysis_run_events ──────────────────────────────────────────────────────
--- Timeline de eventos por request_id, alimentada pela telemetria do worker.
--- É o que o FRONT consome para acompanhar a análise em tempo real.
+-- Timeline of events per request_id, fed by the worker's telemetry.
+-- It is what the FRONT consumes to follow the analysis in real time.
 
 CREATE TABLE analysis_run_events (
   id         BIGINT       GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
