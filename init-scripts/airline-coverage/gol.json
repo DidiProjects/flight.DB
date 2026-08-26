@@ -1,0 +1,3742 @@
+{
+  "airports": [
+    {
+      "code": "AAL",
+      "name": "Aalborg Airport",
+      "countryCode": "DK",
+      "countryName": "Dinamarca",
+      "currency": "DKK"
+    },
+    {
+      "code": "AAN",
+      "name": "Al Ain - Terminal de Onibus",
+      "countryCode": "AE",
+      "countryName": "Emirados Árabes Unidos",
+      "currency": "AED"
+    },
+    {
+      "code": "AAX",
+      "name": "Araxá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "ABJ",
+      "name": "Abidjan, Ivory Coast",
+      "countryCode": "CI",
+      "countryName": "Costa do Marfim",
+      "currency": "XOF"
+    },
+    {
+      "code": "ABV",
+      "name": "Abuja, Nigeria",
+      "countryCode": "NG",
+      "countryName": "Nigéria",
+      "currency": "NGN"
+    },
+    {
+      "code": "ABZ",
+      "name": "Aberdeen",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "ACC",
+      "name": "Accra",
+      "countryCode": "GH",
+      "countryName": "Gana",
+      "currency": "GHS"
+    },
+    {
+      "code": "ADZ",
+      "name": "San Andrés",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "AEP",
+      "name": "Buenos Aires - Aeroparque",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "AES",
+      "name": "Alesund",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "AFA",
+      "name": "San Rafael",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "AFL",
+      "name": "Alta Floresta",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "AGA",
+      "name": "Agadir, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "AGP",
+      "name": "Malaga, Spain",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "AJA",
+      "name": "Ajaccio, France",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "AJU",
+      "name": "Aracaju",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "ALB",
+      "name": "Albany",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ALC",
+      "name": "Alicante, Spain",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "AMS",
+      "name": "Schiphol Airport",
+      "countryCode": "NL",
+      "countryName": "Países Baixos",
+      "currency": "EUR"
+    },
+    {
+      "code": "ANF",
+      "name": "Antofagasta",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "AQP",
+      "name": "Rodriguez Ballon Airport",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "ARI",
+      "name": "Arica - Arica y Parinacota",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "ARN",
+      "name": "Estocolmo Arlanda",
+      "countryCode": "SE",
+      "countryName": "Suécia",
+      "currency": "SEK"
+    },
+    {
+      "code": "ARU",
+      "name": "Araçatuba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "ASU",
+      "name": "Assunção",
+      "countryCode": "PY",
+      "countryName": "Paraguai",
+      "currency": "PYG"
+    },
+    {
+      "code": "ATH",
+      "name": "Athens - Eleftherios Venizelos",
+      "countryCode": "GR",
+      "countryName": "Grécia",
+      "currency": "EUR"
+    },
+    {
+      "code": "ATL",
+      "name": "Atlanta",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ATM",
+      "name": "Altamira",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "AUA",
+      "name": "Aruba",
+      "countryCode": "AW",
+      "countryName": "Aruba",
+      "currency": "AWG"
+    },
+    {
+      "code": "AUC",
+      "name": "Arauca",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "AUS",
+      "name": "Austin",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "AUX",
+      "name": "Araguaina",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "AXM",
+      "name": "Armênia",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "AYP",
+      "name": "Ayacucho",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "BAQ",
+      "name": "Barranquilla",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "BAT",
+      "name": "Barretos",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BBA",
+      "name": "Balmaceda - Aysén del General Carlos Ibáñez del Campo",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "BCN",
+      "name": "Barcelona - El Prat",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "BDL",
+      "name": "Hartford Springfield",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BEL",
+      "name": "Belém",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BER",
+      "name": "Berlin - Brandenburg Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "BES",
+      "name": "Brest",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "BGA",
+      "name": "Bucaramanga",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "BGI",
+      "name": "Barbados",
+      "countryCode": "BB",
+      "countryName": "Barbados",
+      "currency": "BBD"
+    },
+    {
+      "code": "BGO",
+      "name": "Bergen",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "BHI",
+      "name": "Bahia Blanca",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "BHM",
+      "name": "Birmingham Alabama",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BHX",
+      "name": "Birmingham",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "BIA",
+      "name": "Bastia, France",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "BIO",
+      "name": "Bilbao",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "BIQ",
+      "name": "Biarritz, France",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "BJL",
+      "name": "Banjul, Gambia",
+      "countryCode": "GM",
+      "countryName": "Gâmbia",
+      "currency": "GMD"
+    },
+    {
+      "code": "BJX",
+      "name": "León",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "BKO",
+      "name": "Bamako, Mali",
+      "countryCode": "ML",
+      "countryName": "Mali",
+      "currency": "XOF"
+    },
+    {
+      "code": "BLL",
+      "name": "Billund Airport",
+      "countryCode": "DK",
+      "countryName": "Dinamarca",
+      "currency": "DKK"
+    },
+    {
+      "code": "BLQ",
+      "name": "Bolonha",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "BNA",
+      "name": "Nashville",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BOD",
+      "name": "Bordeaux Airport",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "BOG",
+      "name": "Bogotá",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "BOS",
+      "name": "Boston",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BPS",
+      "name": "Porto Seguro",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BRA",
+      "name": "Barreiras",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BRC",
+      "name": "Bariloche",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "BRE",
+      "name": "Bremen Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "BRI",
+      "name": "Bari, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "BRS",
+      "name": "Bristol",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "BRU",
+      "name": "Brussels, Belgium",
+      "countryCode": "BE",
+      "countryName": "Bélgica",
+      "currency": "EUR"
+    },
+    {
+      "code": "BSB",
+      "name": "Brasília",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BSL",
+      "name": "EuroAirport Swiss",
+      "countryCode": "CH",
+      "countryName": "Suíça",
+      "currency": "CHF"
+    },
+    {
+      "code": "BUD",
+      "name": "Budapest, Hungary",
+      "countryCode": "HU",
+      "countryName": "Hungria",
+      "currency": "HUF"
+    },
+    {
+      "code": "BUF",
+      "name": "Buffalo",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BUH",
+      "name": "Bucharest, Romania",
+      "countryCode": "RO",
+      "countryName": "Romênia",
+      "currency": "RON"
+    },
+    {
+      "code": "BVB",
+      "name": "Boa Vista",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BVC",
+      "name": "Ilha Da Boa Vista, Cabo Verde",
+      "countryCode": "CV",
+      "countryName": "Cabo Verde",
+      "currency": "CVE"
+    },
+    {
+      "code": "BVH",
+      "name": "Vilhena",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "BWI",
+      "name": "Baltimore",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "BYO",
+      "name": "Bonito",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CAC",
+      "name": "Cascavel",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CAG",
+      "name": "Cagliari, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "CAI",
+      "name": "Cairo, Egypt",
+      "countryCode": "EG",
+      "countryName": "Egito",
+      "currency": "EGP"
+    },
+    {
+      "code": "CAU",
+      "name": "Caruaru",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CAW",
+      "name": "Campos dos Goitacazes",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CAY",
+      "name": "Cayenne - Félix Eboué",
+      "countryCode": "GF",
+      "countryName": "Guiana Francesa",
+      "currency": "EUR"
+    },
+    {
+      "code": "CBB",
+      "name": "Cochabamba",
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "currency": "BOB"
+    },
+    {
+      "code": "CCP",
+      "name": "Concepción - Bío Bío",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "CCS",
+      "name": "Caracas",
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "currency": "VES"
+    },
+    {
+      "code": "CDG",
+      "name": "Paris - Charles De Gaulle",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "CFB",
+      "name": "Cabo Frio",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CFE",
+      "name": "Clermont-Ferrand",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "CGB",
+      "name": "Cuiabá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CGH",
+      "name": "São Paulo - Congonhas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CGR",
+      "name": "Campo Grande",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CHD",
+      "name": "Mucugê",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CHS",
+      "name": "Charleston",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CID",
+      "name": "Cedar Rapids",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CJC",
+      "name": "Calama - Antofagasta",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "CKS",
+      "name": "Parauapebas - Carajás",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CKY",
+      "name": "Conakry, Guinea",
+      "countryCode": "GN",
+      "countryName": "Guiné",
+      "currency": "GNF"
+    },
+    {
+      "code": "CLE",
+      "name": "Cleveland",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CLO",
+      "name": "Cali",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "CLT",
+      "name": "Charlotte",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CLV",
+      "name": "Caldas Novas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CLY",
+      "name": "Calvi, France",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "CMG",
+      "name": "Corumbá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CMH",
+      "name": "Columbus",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CMN",
+      "name": "Casablanca, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "CNF",
+      "name": "Belo Horizonte - Confins",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CNQ",
+      "name": "Corrientes",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "COO",
+      "name": "Cotonou, Benin",
+      "countryCode": "BJ",
+      "countryName": "Benin",
+      "currency": "XOF"
+    },
+    {
+      "code": "COR",
+      "name": "Córdoba",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "CPC",
+      "name": "San Martín de los Andes",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "CPH",
+      "name": "Copenhagen Airport",
+      "countryCode": "DK",
+      "countryName": "Dinamarca",
+      "currency": "DKK"
+    },
+    {
+      "code": "CPO",
+      "name": "Copiapó - Atacama",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "CPT",
+      "name": "Cidade do Cabo",
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "currency": "ZAR"
+    },
+    {
+      "code": "CPV",
+      "name": "Campina Grande",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CRD",
+      "name": "Comodoro Rivadavia",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "CTA",
+      "name": "Catania, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "CTC",
+      "name": "Catamarca",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "CTG",
+      "name": "Cartagena",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "CUC",
+      "name": "Cúcuta",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "CUE",
+      "name": "Cuenca",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "CUN",
+      "name": "Cancún",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "CUR",
+      "name": "Curaçao",
+      "countryCode": "CW",
+      "countryName": "Curaçao",
+      "currency": "ANG"
+    },
+    {
+      "code": "CUZ",
+      "name": "Cusco",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "CVG",
+      "name": "Cincinnati",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "CWB",
+      "name": "Curitiba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CWL",
+      "name": "Cardiff",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "CXJ",
+      "name": "Caxias do Sul - Gramado e Canela",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "CZS",
+      "name": "Cruzeiro do Sul",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "DAR",
+      "name": "Dar Es Salaam, Tanzania",
+      "countryCode": "TZ",
+      "countryName": "Tanzânia",
+      "currency": "TZS"
+    },
+    {
+      "code": "DCA",
+      "name": "Washington - Ronald Reagan",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "DEN",
+      "name": "Denver",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "DFW",
+      "name": "Dallas - Fort Worth",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "DOU",
+      "name": "Dourados",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "DSM",
+      "name": "Des Moines",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "DSS",
+      "name": "B Diagne Int Dkr, Senegal",
+      "countryCode": "SN",
+      "countryName": "Senegal",
+      "currency": "XOF"
+    },
+    {
+      "code": "DTW",
+      "name": "Detroit",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "DUB",
+      "name": "Dublin Airport",
+      "countryCode": "IE",
+      "countryName": "Irlanda",
+      "currency": "EUR"
+    },
+    {
+      "code": "DUR",
+      "name": "Durban",
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "currency": "ZAR"
+    },
+    {
+      "code": "DUS",
+      "name": "Duesseldorf International",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "EDI",
+      "name": "Edinburgh",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "EEA",
+      "name": "Lages - Correia Pinto",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "EGE",
+      "name": "Eagle County Airport",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "EJA",
+      "name": "Barrancabermeja",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "EQS",
+      "name": "Esquel",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "ERH",
+      "name": "Errachidla, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "ERN",
+      "name": "Eirunepé",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "EUN",
+      "name": "Laayoune, Morocco",
+      "countryCode": "EH",
+      "countryName": "Saara Ocidental",
+      "currency": "MAD"
+    },
+    {
+      "code": "EWR",
+      "name": "Nova Iorque - Newark",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "EYP",
+      "name": "El Yopal",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "EYW",
+      "name": "Key West",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "EZE",
+      "name": "Buenos Aires - Ezeiza",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "FAO",
+      "name": "Faro, Portugal",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "FBM",
+      "name": "Lubumbashi, Congo Dem Rep",
+      "countryCode": "CD",
+      "countryName": "República Democrática do Congo",
+      "currency": "CDF"
+    },
+    {
+      "code": "FCO",
+      "name": "Roma – Fiumicino",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "FDF",
+      "name": "Fort-de-France - Martinica",
+      "countryCode": "MQ",
+      "countryName": "Martinica",
+      "currency": "EUR"
+    },
+    {
+      "code": "FEC",
+      "name": "Feira de Santana",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "FEN",
+      "name": "Fernando de Noronha",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "FEZ",
+      "name": "Fez, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "FIH",
+      "name": "Quinxassa",
+      "countryCode": "CD",
+      "countryName": "República Democrática do Congo",
+      "currency": "CDF"
+    },
+    {
+      "code": "FLL",
+      "name": "Fort Lauderdale",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "FLN",
+      "name": "Florianópolis",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "FLR",
+      "name": "Florença",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "FMA",
+      "name": "Formosa",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "FNA",
+      "name": "Freetown Lungi, Sierra Leone",
+      "countryCode": "SL",
+      "countryName": "Serra Leoa",
+      "currency": "SLL"
+    },
+    {
+      "code": "FNC",
+      "name": "Funchal, Portugal",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "FOR",
+      "name": "Fortaleza",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "FRA",
+      "name": "Frankfurt International Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "FRC",
+      "name": "Franca",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "FRS",
+      "name": "Flores",
+      "countryCode": "GT",
+      "countryName": "Guatemala",
+      "currency": "GTQ"
+    },
+    {
+      "code": "FSC",
+      "name": "Figari, France",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "FTE",
+      "name": "El Calafate",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "GDL",
+      "name": "Guadalajara",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "GDN",
+      "name": "Gdansk, Poland",
+      "countryCode": "PL",
+      "countryName": "Polônia",
+      "currency": "PLN"
+    },
+    {
+      "code": "GEL",
+      "name": "Santo Ângelo",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GEO",
+      "name": "Georgetown",
+      "countryCode": "GY",
+      "countryName": "Guiana",
+      "currency": "GYD"
+    },
+    {
+      "code": "GIG",
+      "name": "Rio de Janeiro - Galeão",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GLA",
+      "name": "Glasgow",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "GNM",
+      "name": "Guanambi",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GOA",
+      "name": "Genova",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "GOT",
+      "name": "Gotemburgo Landvetter",
+      "countryCode": "SE",
+      "countryName": "Suécia",
+      "currency": "SEK"
+    },
+    {
+      "code": "GPB",
+      "name": "Guarapuava",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GPS",
+      "name": "Ilhas Galápagos",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "GRR",
+      "name": "Grand Rapids",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "GRU",
+      "name": "São Paulo - Guarulhos",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GSO",
+      "name": "Greensboro",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "GSP",
+      "name": "Greenville Spartanburg",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "GUA",
+      "name": "Guatemala",
+      "countryCode": "GT",
+      "countryName": "Guatemala",
+      "currency": "GTQ"
+    },
+    {
+      "code": "GVA",
+      "name": "Geneva",
+      "countryCode": "CH",
+      "countryName": "Suíça",
+      "currency": "CHF"
+    },
+    {
+      "code": "GVR",
+      "name": "Governador Valadares",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "GWO",
+      "name": "Greenwood",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "GYE",
+      "name": "Guayaquil",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "GYN",
+      "name": "Goiânia",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "HAJ",
+      "name": "Hannover Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "HAM",
+      "name": "Hamburg Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "HAV",
+      "name": "Havana",
+      "countryCode": "CU",
+      "countryName": "Cuba",
+      "currency": "CUP"
+    },
+    {
+      "code": "HEL",
+      "name": "Helsinki Vantaa, Finland",
+      "countryCode": "FI",
+      "countryName": "Finlândia",
+      "currency": "EUR"
+    },
+    {
+      "code": "HER",
+      "name": "Heraklion, Greece",
+      "countryCode": "GR",
+      "countryName": "Grécia",
+      "currency": "EUR"
+    },
+    {
+      "code": "HNL",
+      "name": "Honolulu International Airport",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "HRE",
+      "name": "Harare, Zimbabwe",
+      "countryCode": "ZW",
+      "countryName": "Zimbábue",
+      "currency": "ZWL"
+    },
+    {
+      "code": "HUY",
+      "name": "Humberside",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "IAD",
+      "name": "Washington - Dulles",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "IAH",
+      "name": "Houston",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "IBE",
+      "name": "Ibagué",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "IBZ",
+      "name": "Ibiza, Spain",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "ICT",
+      "name": "Wichita",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "IGR",
+      "name": "Iguazu",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "IGU",
+      "name": "Foz do Iguaçu – Iguazu Falls",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "IMP",
+      "name": "Imperatriz",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "IND",
+      "name": "Indianapolis",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "INV",
+      "name": "Inverness, United Kingdom",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "IOS",
+      "name": "Ilhéus",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "IPI",
+      "name": "Ipiales",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "IPN",
+      "name": "Ipatinga / Vale do Aço",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "IQQ",
+      "name": "Iquique - Tarapacá",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "IQT",
+      "name": "Iquitos - Loreto",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "IRJ",
+      "name": "La Rioja",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "IST",
+      "name": "Istambul",
+      "countryCode": "TR",
+      "countryName": "Turquia",
+      "currency": "TRY"
+    },
+    {
+      "code": "ITB",
+      "name": "Itaituba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "IZA",
+      "name": "Juiz de Fora - Zona da Mata",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JAU",
+      "name": "Jauja - Junín",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "JAX",
+      "name": "Jacksonville",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "JDO",
+      "name": "Juazeiro do Norte",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JFK",
+      "name": "Nova Iorque - John F. Kennedy",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "JJD",
+      "name": "Jericoacoara",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JJG",
+      "name": "Jaguaruna - Criciúma",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JMK",
+      "name": "Mykonos, Greece",
+      "countryCode": "GR",
+      "countryName": "Grécia",
+      "currency": "EUR"
+    },
+    {
+      "code": "JNB",
+      "name": "Johannesburg",
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "currency": "ZAR"
+    },
+    {
+      "code": "JOI",
+      "name": "Joinville",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JPA",
+      "name": "João Pessoa",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JPR",
+      "name": "Ji-Paraná",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JTC",
+      "name": "Bauru - Arealva",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "JTR",
+      "name": "Santorini, Greece",
+      "countryCode": "GR",
+      "countryName": "Grécia",
+      "currency": "EUR"
+    },
+    {
+      "code": "JUJ",
+      "name": "Jujuy",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "JUL",
+      "name": "Juliaca - Puno",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "KIN",
+      "name": "Kingston",
+      "countryCode": "JM",
+      "countryName": "Jamaica",
+      "currency": "JMD"
+    },
+    {
+      "code": "KRS",
+      "name": "Kristiansand",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "KTT",
+      "name": "Kittila, Finland",
+      "countryCode": "FI",
+      "countryName": "Finlândia",
+      "currency": "EUR"
+    },
+    {
+      "code": "LAD",
+      "name": "Luanda, Angola",
+      "countryCode": "AO",
+      "countryName": "Angola",
+      "currency": "AOA"
+    },
+    {
+      "code": "LAS",
+      "name": "Las Vegas",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "LAX",
+      "name": "Los Angeles",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "LBA",
+      "name": "Leeds/Bradford",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "LDB",
+      "name": "Londrina",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "LEC",
+      "name": "Lençóis/Chapada Diamantina",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "LET",
+      "name": "Leticia",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "LFW",
+      "name": "Lome, Togo",
+      "countryCode": "TG",
+      "countryName": "Togo",
+      "currency": "XOF"
+    },
+    {
+      "code": "LGA",
+      "name": "Nova Iorque - La Guardia",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "LGW",
+      "name": "Gatwick, Londres",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "LHR",
+      "name": "London - Heathrow",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "LIM",
+      "name": "Lima",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "LIN",
+      "name": "Milão - Linate",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "LIS",
+      "name": "Lisboa",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "LIT",
+      "name": "Little Rock",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "LOS",
+      "name": "Lagos, Nigeria",
+      "countryCode": "NG",
+      "countryName": "Nigéria",
+      "currency": "NGN"
+    },
+    {
+      "code": "LPA",
+      "name": "Gran Canaria, Espanha",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "LPB",
+      "name": "La Paz – El Alto",
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "currency": "BOB"
+    },
+    {
+      "code": "LPI",
+      "name": "Linkoping Airport",
+      "countryCode": "SE",
+      "countryName": "Suécia",
+      "currency": "SEK"
+    },
+    {
+      "code": "LSC",
+      "name": "La Serena - Coquimbo",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "LUN",
+      "name": "Lusaka, Zambia",
+      "countryCode": "ZM",
+      "countryName": "Zâmbia",
+      "currency": "ZMW"
+    },
+    {
+      "code": "LUQ",
+      "name": "San Luis",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "LUX",
+      "name": "Luxembourg, Luxembourg",
+      "countryCode": "LU",
+      "countryName": "Luxemburgo",
+      "currency": "EUR"
+    },
+    {
+      "code": "LYS",
+      "name": "Lyon Satolas Airport",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "MAB",
+      "name": "Marabá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MAD",
+      "name": "Madrid - Barajas",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "MAH",
+      "name": "Menorca, Espanha",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "MAN",
+      "name": "Manchester",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "MAO",
+      "name": "Manaus",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MAR",
+      "name": "Maracaibo",
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "currency": "VES"
+    },
+    {
+      "code": "MBJ",
+      "name": "Montego Bay",
+      "countryCode": "JM",
+      "countryName": "Jamaica",
+      "currency": "JMD"
+    },
+    {
+      "code": "MCI",
+      "name": "Kansas City Missouri",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MCO",
+      "name": "Orlando",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MCP",
+      "name": "Macapá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MCZ",
+      "name": "Maceió",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MDE",
+      "name": "Medellín",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "MDQ",
+      "name": "Mar del Plata",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "MDZ",
+      "name": "Mendoza",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "MEC",
+      "name": "Manta",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "MEM",
+      "name": "Memphis",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MEX",
+      "name": "Cidade do México",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "MGA",
+      "name": "Manágua",
+      "countryCode": "NI",
+      "countryName": "Nicarágua",
+      "currency": "NIO"
+    },
+    {
+      "code": "MGF",
+      "name": "Maringá",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MHC",
+      "name": "Castro - Dalcahue - Chiloé Island - Los Lagos",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "MIA",
+      "name": "Miami",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MII",
+      "name": "Marília",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MKE",
+      "name": "Milwaukee",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MLA",
+      "name": "Malta, Malta",
+      "countryCode": "MT",
+      "countryName": "Malta",
+      "currency": "EUR"
+    },
+    {
+      "code": "MME",
+      "name": "Durham",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "MOC",
+      "name": "Montes Claros",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MPL",
+      "name": "Montpellier",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "MPM",
+      "name": "Maputo",
+      "countryCode": "MZ",
+      "countryName": "Moçambique",
+      "currency": "MZN"
+    },
+    {
+      "code": "MRS",
+      "name": "Marseille",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "MRU",
+      "name": "Mauritius, Mauritius",
+      "countryCode": "MU",
+      "countryName": "Maurício",
+      "currency": "MUR"
+    },
+    {
+      "code": "MSN",
+      "name": "Madison",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MSP",
+      "name": "Minneapolis",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MSY",
+      "name": "New Orleans",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "MTR",
+      "name": "Montería",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "MTY",
+      "name": "Monterrey",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "MUC",
+      "name": "Munich International",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "MUU",
+      "name": "Península de Maraú",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MVD",
+      "name": "Montevidéu",
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "currency": "UYU"
+    },
+    {
+      "code": "MVF",
+      "name": "Mossoró",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "MXP",
+      "name": "Milão - Malpensa",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "MXQ",
+      "name": "Morro de São Paulo",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "NAP",
+      "name": "Napoles",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "NAS",
+      "name": "Nassau",
+      "countryCode": "BS",
+      "countryName": "Bahamas",
+      "currency": "BSD"
+    },
+    {
+      "code": "NAT",
+      "name": "Natal",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "NBJ",
+      "name": "Luanda, Aeroporto Internacional Dr. António Agostinho Neto, Angola",
+      "countryCode": "AO",
+      "countryName": "Angola",
+      "currency": "AOA"
+    },
+    {
+      "code": "NCE",
+      "name": "Nice",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "NCL",
+      "name": "Newcastle",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "NDR",
+      "name": "Nador, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "NIM",
+      "name": "Niamey, Niger",
+      "countryCode": "NE",
+      "countryName": "Níger",
+      "currency": "XOF"
+    },
+    {
+      "code": "NKC",
+      "name": "Nouakchott, Mauritania",
+      "countryCode": "MR",
+      "countryName": "Mauritânia",
+      "currency": "MRU"
+    },
+    {
+      "code": "NQN",
+      "name": "Neuquen",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "NSR",
+      "name": "São Raimundo Nonato",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "NTE",
+      "name": "Nantes",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "NUE",
+      "name": "Nuremberg Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "NVA",
+      "name": "Neiva",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "NVT",
+      "name": "Navegantes",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "NWI",
+      "name": "Norwich",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "OAK",
+      "name": "Oakland",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "OAL",
+      "name": "Cacoal",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "OKC",
+      "name": "Oklahoma City",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "OLB",
+      "name": "Olbia, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "OMA",
+      "name": "Omaha",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ONT",
+      "name": "Ontário - Califórnia",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "OPO",
+      "name": "Porto",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "OPS",
+      "name": "Sinop",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "ORD",
+      "name": "Chicago",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ORF",
+      "name": "Norfolk Virginia",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ORK",
+      "name": "Cork, Ireland",
+      "countryCode": "IE",
+      "countryName": "Irlanda",
+      "currency": "EUR"
+    },
+    {
+      "code": "OSL",
+      "name": "Oslo Gardemoen",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "OTP",
+      "name": "Bucharest Otopeni, Romania",
+      "countryCode": "RO",
+      "countryName": "Romênia",
+      "currency": "RON"
+    },
+    {
+      "code": "OUA",
+      "name": "Ouagadougou, Burkina Faso",
+      "countryCode": "BF",
+      "countryName": "Burkina Faso",
+      "currency": "XOF"
+    },
+    {
+      "code": "OUD",
+      "name": "Oujda, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "OXB",
+      "name": "Bissau, Guinea Bissau",
+      "countryCode": "GW",
+      "countryName": "Guiné-Bissau",
+      "currency": "XOF"
+    },
+    {
+      "code": "OZZ",
+      "name": "Ouarzazate, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "PAP",
+      "name": "Porto Príncipe",
+      "countryCode": "HT",
+      "countryName": "Haiti",
+      "currency": "HTG"
+    },
+    {
+      "code": "PAV",
+      "name": "Paulo Afonso",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PBA",
+      "name": "Boipeba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PBM",
+      "name": "Paramaribo",
+      "countryCode": "SR",
+      "countryName": "Suriname",
+      "currency": "SRD"
+    },
+    {
+      "code": "PCL",
+      "name": "Pucallpa - Ucayali",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "PDL",
+      "name": "Ponta Delgada, Portugal",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "PDP",
+      "name": "Punta Del Este",
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "currency": "UYU"
+    },
+    {
+      "code": "PDX",
+      "name": "Portland",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "PEI",
+      "name": "Pereira",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "PEM",
+      "name": "Puerto Maldonado - Madre de Dios",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "PER",
+      "name": "Perth, Australia",
+      "countryCode": "AU",
+      "countryName": "Austrália",
+      "currency": "AUD"
+    },
+    {
+      "code": "PET",
+      "name": "Pelotas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PFB",
+      "name": "Passo Fundo",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PGZ",
+      "name": "Ponta Grossa",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PHB",
+      "name": "Parnaíba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PHL",
+      "name": "Filadelfia",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "PHX",
+      "name": "Phoenix",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "PIN",
+      "name": "Parintins",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PIT",
+      "name": "Pittsburgh",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "PIU",
+      "name": "Piura",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "PLU",
+      "name": "Belo Horizonte - Pampulha",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PLZ",
+      "name": "Port Elizabeth",
+      "countryCode": "ZA",
+      "countryName": "África do Sul",
+      "currency": "ZAR"
+    },
+    {
+      "code": "PMC",
+      "name": "Puerto Montt - Los Lagos",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "PMG",
+      "name": "Ponta Porã",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PMI",
+      "name": "Palma de Mallorca, Spain",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "PMO",
+      "name": "Palermo, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "PMW",
+      "name": "Palmas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PNR",
+      "name": "Ponta Negra",
+      "countryCode": "CD",
+      "countryName": "República Democrática do Congo",
+      "currency": "CDF"
+    },
+    {
+      "code": "PNS",
+      "name": "Pensacola",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "PNT",
+      "name": "Puerto Natales - Magallanes y de la Antártica Chilena",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "PNZ",
+      "name": "Petrolina",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "POA",
+      "name": "Porto Alegre",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "POJ",
+      "name": "Patos de Minas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "POS",
+      "name": "Aeroporto Internacional de Piarco",
+      "countryCode": "TT",
+      "countryName": "Trinidad e Tobago",
+      "currency": "TTD"
+    },
+    {
+      "code": "POZ",
+      "name": "Poznan, Poland",
+      "countryCode": "PL",
+      "countryName": "Polônia",
+      "currency": "PLN"
+    },
+    {
+      "code": "PPB",
+      "name": "Presidente Prudente",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PPN",
+      "name": "Popayán",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "PRG",
+      "name": "Prague, Czech Republic",
+      "countryCode": "CZ",
+      "countryName": "República Tcheca",
+      "currency": "CZK"
+    },
+    {
+      "code": "PSO",
+      "name": "San Juan de Pasto",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "PSS",
+      "name": "Posadas",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "PTO",
+      "name": "Pato Branco",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PTP",
+      "name": "Pointe-a-Pitre, Guadeloupe",
+      "countryCode": "GP",
+      "countryName": "Guadalupe",
+      "currency": "EUR"
+    },
+    {
+      "code": "PTY",
+      "name": "Cidade do Panamá",
+      "countryCode": "PA",
+      "countryName": "Panamá",
+      "currency": "USD"
+    },
+    {
+      "code": "PUF",
+      "name": "Pau",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "PUJ",
+      "name": "Punta Cana",
+      "countryCode": "DO",
+      "countryName": "República Dominicana",
+      "currency": "DOP"
+    },
+    {
+      "code": "PUQ",
+      "name": "Punta Arenas - Magallanes y de la Antártica Chilena",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "PVH",
+      "name": "Porto Velho",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "PXO",
+      "name": "Porto Santo, Portugal",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "QNS",
+      "name": "Canoas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "RAI",
+      "name": "Praia, Cape Verde",
+      "countryCode": "CV",
+      "countryName": "Cabo Verde",
+      "currency": "CVE"
+    },
+    {
+      "code": "RAK",
+      "name": "Marrakech, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "RAO",
+      "name": "Ribeirão Preto",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "RBR",
+      "name": "Rio Branco",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "RCH",
+      "name": "Riohacha",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "RDU",
+      "name": "Raleigh/Durham",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "REC",
+      "name": "Recife",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "REL",
+      "name": "Trelew",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RES",
+      "name": "Resistencia",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RGA",
+      "name": "Rio Grande",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RGL",
+      "name": "Rio Gallegos",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RHD",
+      "name": "Rio Hondo",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RHO",
+      "name": "Rhodes, Rhodos Island",
+      "countryCode": "GR",
+      "countryName": "Grécia",
+      "currency": "EUR"
+    },
+    {
+      "code": "RIA",
+      "name": "Santa Maria",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "RIC",
+      "name": "Richmond",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "RNS",
+      "name": "Rennes",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "ROB",
+      "name": "Monrovia Roberts, Liberia",
+      "countryCode": "LR",
+      "countryName": "Libéria",
+      "currency": "LRD"
+    },
+    {
+      "code": "ROC",
+      "name": "Rochester",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "ROO",
+      "name": "Rondonópolis",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "ROS",
+      "name": "Rosario",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RSA",
+      "name": "Santa Rosa",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "RVD",
+      "name": "Rio Verde",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "RVN",
+      "name": "Rovaniemi, Finland",
+      "countryCode": "FI",
+      "countryName": "Finlândia",
+      "currency": "EUR"
+    },
+    {
+      "code": "RVY",
+      "name": "Santana do Livramento",
+      "countryCode": "UY",
+      "countryName": "Uruguai",
+      "currency": "UYU"
+    },
+    {
+      "code": "SAL",
+      "name": "San Salvador",
+      "countryCode": "SV",
+      "countryName": "El Salvador",
+      "currency": "USD"
+    },
+    {
+      "code": "SAN",
+      "name": "San Diego",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SAP",
+      "name": "San Pedro Sula",
+      "countryCode": "HN",
+      "countryName": "Honduras",
+      "currency": "HNL"
+    },
+    {
+      "code": "SAT",
+      "name": "San Antonio",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SAV",
+      "name": "Savannah",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SCL",
+      "name": "Santiago",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "SCY",
+      "name": "San Cristobal – Ilhas Galápagos",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "SDE",
+      "name": "Santiago del Estero",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "SDF",
+      "name": "Louisville",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SDQ",
+      "name": "Santo Domingo",
+      "countryCode": "DO",
+      "countryName": "República Dominicana",
+      "currency": "DOP"
+    },
+    {
+      "code": "SDU",
+      "name": "Rio de Janeiro - Santos Dumont",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SEA",
+      "name": "Seattle",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SFN",
+      "name": "São Francisco",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "SFO",
+      "name": "São Francisco",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SID",
+      "name": "Sal, Cape Verde",
+      "countryCode": "CV",
+      "countryName": "Cabo Verde",
+      "currency": "CVE"
+    },
+    {
+      "code": "SJC",
+      "name": "San José - Califórnia",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SJD",
+      "name": "San José del Cabo",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "SJK",
+      "name": "São Paulo - São José dos Campos",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SJL",
+      "name": "São Gabriel da Cachoeira",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SJO",
+      "name": "San José - Costa Rica",
+      "countryCode": "CR",
+      "countryName": "Costa Rica",
+      "currency": "CRC"
+    },
+    {
+      "code": "SJP",
+      "name": "São José do Rio Preto - Olímpia",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SJU",
+      "name": "San Juan",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SLA",
+      "name": "Salta",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "SLC",
+      "name": "Salt Lake City",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SLZ",
+      "name": "São Luis",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SMF",
+      "name": "Sacramento",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SMR",
+      "name": "Santa Marta",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "SMT",
+      "name": "Sorriso",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "SOU",
+      "name": "Southampton, United Kingdom",
+      "countryCode": "GB",
+      "countryName": "Reino Unido",
+      "currency": "GBP"
+    },
+    {
+      "code": "SRE",
+      "name": "Sucre Airport",
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "currency": "BOB"
+    },
+    {
+      "code": "SSA",
+      "name": "Salvador",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "STL",
+      "name": "Saint Louis",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "STM",
+      "name": "Santarém",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "STR",
+      "name": "Stuttgart Airport",
+      "countryCode": "DE",
+      "countryName": "Alemanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "STT",
+      "name": "Saint Thomas",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "STX",
+      "name": "Saint Croix",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "SVG",
+      "name": "Stavanger",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "SVQ",
+      "name": "Sevilha",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "SXM",
+      "name": "São Martinho",
+      "countryCode": "SX",
+      "countryName": "Sint Maarten",
+      "currency": "ANG"
+    },
+    {
+      "code": "SYR",
+      "name": "Syracuse",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "TAB",
+      "name": "Tobago",
+      "countryCode": "TT",
+      "countryName": "Trinidad e Tobago",
+      "currency": "TTD"
+    },
+    {
+      "code": "TBP",
+      "name": "Tumbes",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "TBS",
+      "name": "Tbilisi, Georgia",
+      "countryCode": "GE",
+      "countryName": "Geórgia",
+      "currency": "GEL"
+    },
+    {
+      "code": "TBT",
+      "name": "Tabatinga",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "TCQ",
+      "name": "Tacna",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "TER",
+      "name": "Ilha Terceira, Portugal",
+      "countryCode": "PT",
+      "countryName": "Portugal",
+      "currency": "EUR"
+    },
+    {
+      "code": "TFF",
+      "name": "Tefé",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "THE",
+      "name": "Teresina",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "TIA",
+      "name": "Tirana, Albania",
+      "countryCode": "AL",
+      "countryName": "Albânia",
+      "currency": "ALL"
+    },
+    {
+      "code": "TIJ",
+      "name": "Tijuana",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "TJL",
+      "name": "Três Lagoas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "TLS",
+      "name": "Toulouse",
+      "countryCode": "FR",
+      "countryName": "França",
+      "currency": "EUR"
+    },
+    {
+      "code": "TLV",
+      "name": "Tel Aviv, Israel",
+      "countryCode": "IL",
+      "countryName": "Israel",
+      "currency": "ILS"
+    },
+    {
+      "code": "TMS",
+      "name": "São Tomé e Príncipe",
+      "countryCode": "ST",
+      "countryName": "São Tomé e Príncipe",
+      "currency": "STN"
+    },
+    {
+      "code": "TMT",
+      "name": "Porto Trombetas",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "TNG",
+      "name": "Tangier, Morocco",
+      "countryCode": "MA",
+      "countryName": "Marrocos",
+      "currency": "MAD"
+    },
+    {
+      "code": "TOS",
+      "name": "Tromso Norway, Norway",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "TPA",
+      "name": "Tampa",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "TPP",
+      "name": "Tarapoto - San Martín",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "TQO",
+      "name": "Tulum",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "TRD",
+      "name": "Trondheim",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "TRF",
+      "name": "Oslo Sandefjord",
+      "countryCode": "NO",
+      "countryName": "Noruega",
+      "currency": "NOK"
+    },
+    {
+      "code": "TRN",
+      "name": "Turin",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "TRU",
+      "name": "Trujillo - La Libertad",
+      "countryCode": "PE",
+      "countryName": "Peru",
+      "currency": "PEN"
+    },
+    {
+      "code": "TUC",
+      "name": "Tucuman",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "TUL",
+      "name": "Tulsa",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "TUN",
+      "name": "Tunis, Tunisia",
+      "countryCode": "TN",
+      "countryName": "Tunísia",
+      "currency": "TND"
+    },
+    {
+      "code": "TYS",
+      "name": "Knoxville",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "UAQ",
+      "name": "San Juan",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "UBA",
+      "name": "Uberaba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "UDI",
+      "name": "Uberlândia",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "UIB",
+      "name": "Quibdó",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "UIO",
+      "name": "Quito",
+      "countryCode": "EC",
+      "countryName": "Equador",
+      "currency": "USD"
+    },
+    {
+      "code": "UNA",
+      "name": "Una-Comandatuba",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "URG",
+      "name": "Uruguaiana",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "USH",
+      "name": "Ushuaia",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "VCE",
+      "name": "Veneza",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "VCP",
+      "name": "São Paulo - Campinas - Viracopos",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "VDC",
+      "name": "Vitória da Conquista",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "VDM",
+      "name": "Viedma",
+      "countryCode": "AR",
+      "countryName": "Argentina",
+      "currency": "ARS"
+    },
+    {
+      "code": "VFA",
+      "name": "Victoria Falls, Zimbabwe",
+      "countryCode": "ZW",
+      "countryName": "Zimbábue",
+      "currency": "ZWL"
+    },
+    {
+      "code": "VIE",
+      "name": "Vienna, Austria",
+      "countryCode": "AT",
+      "countryName": "Áustria",
+      "currency": "EUR"
+    },
+    {
+      "code": "VIL",
+      "name": "Dakhla, Morocco",
+      "countryCode": "EH",
+      "countryName": "Saara Ocidental",
+      "currency": "MAD"
+    },
+    {
+      "code": "VIX",
+      "name": "Vitória",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "VLC",
+      "name": "Valência",
+      "countryCode": "ES",
+      "countryName": "Espanha",
+      "currency": "EUR"
+    },
+    {
+      "code": "VLN",
+      "name": "Valencia, Carabobo, Venezuela",
+      "countryCode": "VE",
+      "countryName": "Venezuela",
+      "currency": "VES"
+    },
+    {
+      "code": "VRN",
+      "name": "Verona, Italy",
+      "countryCode": "IT",
+      "countryName": "Itália",
+      "currency": "EUR"
+    },
+    {
+      "code": "VSA",
+      "name": "Aeroporto Cap Carlos Perez",
+      "countryCode": "MX",
+      "countryName": "México",
+      "currency": "MXN"
+    },
+    {
+      "code": "VUP",
+      "name": "Valledupar",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "VVC",
+      "name": "Villavicencio",
+      "countryCode": "CO",
+      "countryName": "Colômbia",
+      "currency": "COP"
+    },
+    {
+      "code": "VVI",
+      "name": "Santa Cruz de la Sierra",
+      "countryCode": "BO",
+      "countryName": "Bolívia",
+      "currency": "BOB"
+    },
+    {
+      "code": "VXE",
+      "name": "Ilha De São Vicente, Cabo Verde",
+      "countryCode": "CV",
+      "countryName": "Cabo Verde",
+      "currency": "CVE"
+    },
+    {
+      "code": "WAW",
+      "name": "Warsaw, Poland",
+      "countryCode": "PL",
+      "countryName": "Polônia",
+      "currency": "PLN"
+    },
+    {
+      "code": "WDH",
+      "name": "Windhoek",
+      "countryCode": "NA",
+      "countryName": "Namíbia",
+      "currency": "NAD"
+    },
+    {
+      "code": "WRO",
+      "name": "Wroclaw, Poland",
+      "countryCode": "PL",
+      "countryName": "Polônia",
+      "currency": "PLN"
+    },
+    {
+      "code": "XAP",
+      "name": "Chapecó",
+      "countryCode": "BR",
+      "countryName": "Brasil",
+      "currency": "BRL"
+    },
+    {
+      "code": "XNA",
+      "name": "Fayetteville Northwest Arkansas",
+      "countryCode": "US",
+      "countryName": "Estados Unidos",
+      "currency": "USD"
+    },
+    {
+      "code": "XNB",
+      "name": "Dubai – Terminal de Onibus",
+      "countryCode": "AE",
+      "countryName": "Emirados Árabes Unidos",
+      "currency": "AED"
+    },
+    {
+      "code": "XPL",
+      "name": "Tegucigalpa",
+      "countryCode": "HN",
+      "countryName": "Honduras",
+      "currency": "HNL"
+    },
+    {
+      "code": "YAM",
+      "name": "Salto da Santa Maria",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YDF",
+      "name": "Deer Lake",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YEG",
+      "name": "Edmonton",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YFC",
+      "name": "Fredericton",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YHZ",
+      "name": "Halifax",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YMM",
+      "name": "Forte McMurray",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YOW",
+      "name": "Ottawa",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQB",
+      "name": "Quebec",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQG",
+      "name": "Windsor",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQM",
+      "name": "Moncton",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQR",
+      "name": "Regina",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQT",
+      "name": "Thunder Bay",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YQY",
+      "name": "Sydney",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YSB",
+      "name": "Sudbury",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YSJ",
+      "name": "São João da Terra Nova",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YTS",
+      "name": "Timmins",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YUL",
+      "name": "Montreal",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YVR",
+      "name": "Vancouver",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YWG",
+      "name": "Winnipeg",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YXU",
+      "name": "London On, Canada",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YYG",
+      "name": "Charlottetown Pe, Canada",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "YYZ",
+      "name": "Toronto",
+      "countryCode": "CA",
+      "countryName": "Canadá",
+      "currency": "CAD"
+    },
+    {
+      "code": "ZAL",
+      "name": "Valdivia - Los Ríos",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "ZCO",
+      "name": "Temuco - Araucanía",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "ZOS",
+      "name": "Osorno - Los Lagos",
+      "countryCode": "CL",
+      "countryName": "Chile",
+      "currency": "CLP"
+    },
+    {
+      "code": "ZRH",
+      "name": "Zurich",
+      "countryCode": "CH",
+      "countryName": "Suíça",
+      "currency": "CHF"
+    }
+  ]
+}
