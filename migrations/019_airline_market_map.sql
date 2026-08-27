@@ -23,6 +23,16 @@
 -- Não é inferível do dado que temos: é fato jurídico, e entra escrito à mão.
 -- São 1 a 5 linhas por companhia.
 
+-- Transação explícita: DDL e seed entram juntos ou não entram.
+--
+-- A atomicidade não pode depender de como a migration é invocada. Em 2026-08-27
+-- a tentativa em produção falhou na FK do seed e reverteu tudo, DDL incluído —
+-- que é o comportamento certo, mas só aconteceu porque quem rodou passou
+-- `--single-transaction`. Com `psql -f` puro cada comando commita sozinho, e a
+-- mesma falha teria deixado as tabelas criadas e o mapa pela metade: um banco
+-- em que toda companhia é fail-closed, sem candidata para trajeto nenhum.
+BEGIN;
+
 -- ─── markets ─────────────────────────────────────────────────────────────────
 -- Um mercado é um conjunto de países com cabotagem livre entre si. País isolado
 -- é um mercado de um país só — sem caso especial no modelo nem na consulta.
@@ -110,3 +120,5 @@ FROM (VALUES
   ('ryanair',        'gb')
 ) AS v(airline_code, market_code)
 JOIN airlines a ON a.code = v.airline_code;
+
+COMMIT;
