@@ -82,7 +82,22 @@ SELECT 'eee', c FROM unnest(ARRAY[
   'lv','lt','lu','mt','nl','pl','pt','ro','sk','si','es','se','is','li','no'
 ]) c;
 
-INSERT INTO airline_markets (airline_code, market_code) VALUES
+-- Só entra vínculo de companhia que EXISTE naquele banco.
+--
+-- `airlines` é dado operacional, não de schema: o único cadastro que o projeto
+-- faz sozinho é o da `azul` (`init-scripts/02-seed.sh`), e as demais entram por
+-- ambiente. Cravar a lista aqui derrubava a migration INTEIRA num banco que não
+-- tivesse todas — medido em produção em 2026-08-27, que não tem a `gol`
+-- (`active = false`, cadastrada só esperando voltar): a FK abortou e a
+-- transação reverteu até o DDL.
+--
+-- Quem cadastra a companhia cadastra o mercado dela junto, como o `02-seed.sh`
+-- já faz com a `azul` — "entra junto do cadastro dela, nunca depois". Por isso
+-- a `gol` continua na lista: no dia em que ela for cadastrada, o vínculo dela
+-- já está escrito aqui, e este é o registro de qual mercado é o dela.
+INSERT INTO airline_markets (airline_code, market_code)
+SELECT v.airline_code, v.market_code
+FROM (VALUES
   ('azul',           'br'),
   ('gol',            'br'),   -- active = false hoje; mapeada para quando voltar
   ('latam',          'br'),
@@ -92,4 +107,6 @@ INSERT INTO airline_markets (airline_code, market_code) VALUES
   ('latam',          'ec'),
   ('britishairways', 'gb'),
   ('ryanair',        'eee'),
-  ('ryanair',        'gb');
+  ('ryanair',        'gb')
+) AS v(airline_code, market_code)
+JOIN airlines a ON a.code = v.airline_code;
