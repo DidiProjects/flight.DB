@@ -23,6 +23,16 @@
 -- Não é inferível do dado que temos: é fato jurídico, e entra escrito à mão.
 -- São 1 a 5 linhas por companhia.
 
+-- Transação explícita: DDL e seed entram juntos ou não entram.
+--
+-- A atomicidade não pode depender de como a migration é invocada. Em 2026-08-27
+-- a tentativa em produção falhou na FK do seed e reverteu tudo, DDL incluído —
+-- que é o comportamento certo, mas só aconteceu porque quem rodou passou
+-- `--single-transaction`. Com `psql -f` puro cada comando commita sozinho, e a
+-- mesma falha teria deixado as tabelas criadas e o mapa pela metade: um banco
+-- em que toda companhia é fail-closed, sem candidata para trajeto nenhum.
+BEGIN;
+
 -- ─── markets ─────────────────────────────────────────────────────────────────
 -- Um mercado é um conjunto de países com cabotagem livre entre si. País isolado
 -- é um mercado de um país só — sem caso especial no modelo nem na consulta.
@@ -82,7 +92,22 @@ SELECT 'eee', c FROM unnest(ARRAY[
   'lv','lt','lu','mt','nl','pl','pt','ro','sk','si','es','se','is','li','no'
 ]) c;
 
-INSERT INTO airline_markets (airline_code, market_code) VALUES
+-- Só entra vínculo de companhia que EXISTE naquele banco.
+--
+-- `airlines` é dado operacional, não de schema: o único cadastro que o projeto
+-- faz sozinho é o da `azul` (`init-scripts/02-seed.sh`), e as demais entram por
+-- ambiente. Cravar a lista aqui derrubava a migration INTEIRA num banco que não
+-- tivesse todas — medido em produção em 2026-08-27, que não tem a `gol`
+-- (`active = false`, cadastrada só esperando voltar): a FK abortou e a
+-- transação reverteu até o DDL.
+--
+-- Quem cadastra a companhia cadastra o mercado dela junto, como o `02-seed.sh`
+-- já faz com a `azul` — "entra junto do cadastro dela, nunca depois". Por isso
+-- a `gol` continua na lista: no dia em que ela for cadastrada, o vínculo dela
+-- já está escrito aqui, e este é o registro de qual mercado é o dela.
+INSERT INTO airline_markets (airline_code, market_code)
+SELECT v.airline_code, v.market_code
+FROM (VALUES
   ('azul',           'br'),
   ('gol',            'br'),   -- active = false hoje; mapeada para quando voltar
   ('latam',          'br'),
@@ -92,4 +117,8 @@ INSERT INTO airline_markets (airline_code, market_code) VALUES
   ('latam',          'ec'),
   ('britishairways', 'gb'),
   ('ryanair',        'eee'),
-  ('ryanair',        'gb');
+  ('ryanair',        'gb')
+) AS v(airline_code, market_code)
+JOIN airlines a ON a.code = v.airline_code;
+
+COMMIT;
