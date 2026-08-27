@@ -58,6 +58,53 @@ CREATE TABLE airlines (
     has_roundtrip BOOLEAN  NOT NULL DEFAULT false
 );
 
+-- ─── mapa de mercado (019) ───────────────────────────────────────────────────
+-- Quais companhias fazem sentido para um trajeto. O discriminador é DIREITO DE
+-- TRÁFEGO: companhia estrangeira não opera voo doméstico em outro país. A
+-- exceção é o mercado único europeu, e é por isso que a Ryanair, irlandesa, voa
+-- MAD-BCN. Ver a migration 019 para o que foi testado e reprovado antes disto.
+
+CREATE TABLE markets (
+  code       VARCHAR(10)  PRIMARY KEY,
+  name       VARCHAR(100) NOT NULL,
+  created_at TIMESTAMPTZ  NOT NULL DEFAULT now()
+);
+
+-- Um mercado é um conjunto de países com cabotagem livre entre si; país isolado
+-- é um mercado de um país só. country_code sempre minúsculo: a `airports` tem a
+-- caixa da GOL em MAIÚSCULA e o resto em minúscula.
+CREATE TABLE market_countries (
+  market_code  VARCHAR(10) NOT NULL REFERENCES markets(code) ON DELETE CASCADE,
+  country_code VARCHAR(2)  NOT NULL CHECK (country_code = lower(country_code)),
+  PRIMARY KEY (market_code, country_code)
+);
+
+CREATE INDEX idx_market_countries_country ON market_countries(country_code);
+
+-- N-para-N: a Ryanair pertence ao EEE pelo AOC irlandês E ao Reino Unido pelo
+-- AOC britânico separado; a LATAM são cinco companhias nacionais num grupo.
+-- Companhia sem linha aqui nunca é candidata (fail-closed).
+CREATE TABLE airline_markets (
+  airline_code VARCHAR(20) NOT NULL REFERENCES airlines(code) ON DELETE CASCADE,
+  market_code  VARCHAR(10) NOT NULL REFERENCES markets(code)  ON DELETE RESTRICT,
+  PRIMARY KEY (airline_code, market_code)
+);
+
+INSERT INTO markets (code, name) VALUES
+  ('br',  'Brasil'), ('cl', 'Chile'), ('pe', 'Peru'), ('co', 'Colômbia'),
+  ('ec',  'Equador'), ('gb', 'Reino Unido'), ('eee', 'Espaço Econômico Europeu');
+
+INSERT INTO market_countries (market_code, country_code) VALUES
+  ('br','br'), ('cl','cl'), ('pe','pe'), ('co','co'), ('ec','ec'), ('gb','gb');
+
+-- Os 27 da UE mais Islândia, Liechtenstein e Noruega. O Reino Unido NÃO entra:
+-- saiu com o Brexit, e é por isso que a BA não opera mais doméstico na Itália.
+INSERT INTO market_countries (market_code, country_code)
+SELECT 'eee', c FROM unnest(ARRAY[
+  'at','be','bg','hr','cy','cz','dk','ee','fi','fr','de','gr','hu','ie','it',
+  'lv','lt','lu','mt','nl','pl','pt','ro','sk','si','es','se','is','li','no'
+]) c;
+
 -- ─── airports ────────────────────────────────────────────────────────────────
 
 CREATE TABLE IF NOT EXISTS airports (
