@@ -23,6 +23,49 @@ Admin inserido no seed (`02-seed.sh`). `must_change_password=true` bloqueia aces
 ### `airports`
 `airline_code` (FK) + `airport_code` UNIQUE · `name` · `timezone` · `country_code`/`country_name` · `city` · `region` · `currency` NOT NULL. A moeda da rotina é resolvida, em ordem: (1) `airlines.currency`, se definida; (2) `flight_fares.currency` de um job já coletado para o trajeto/companhia; (3) moeda do aeroporto de ORIGEM; (4) indefinida.
 
+### `markets` / `market_countries` / `airline_markets` (migration 019)
+
+Mapa de mercado: quais companhias fazem sentido para um trajeto, por **direito de
+tráfego**. Companhia estrangeira não opera doméstico em outro país — cabotagem é
+restrição legal, e a exceção é o mercado único europeu (é por isso que a Ryanair,
+irlandesa, pode voar MAD-BCN).
+
+- **`markets`** — `code` PK · `name`. Um mercado é um conjunto de países com
+  cabotagem livre entre si; país isolado é mercado de um país só, sem caso
+  especial no modelo nem na consulta. Seed: `br`, `cl`, `pe`, `co`, `ec`, `gb`,
+  `eee`.
+- **`market_countries`** — PK (`market_code` FK, `country_code`). `country_code`
+  sempre minúsculo, com CHECK: a caixa de `airports.country_code` da GOL está em
+  MAIÚSCULA e o resto em minúscula, então toda comparação precisa de `lower()`
+  dos dois lados. `eee` = os 27 da UE mais Islândia, Liechtenstein e Noruega — o
+  Reino Unido **não** está lá (Brexit), e é por isso que a BA não opera mais
+  doméstico na Itália.
+- **`airline_markets`** — PK (`airline_code` FK, `market_code` FK). N-para-N: a
+  Ryanair pertence ao `eee` pelo AOC irlandês E ao `gb` pelo AOC britânico
+  separado que mantém desde o Brexit; a LATAM são cinco companhias nacionais num
+  grupo.
+
+**Fail-closed:** companhia sem linha em `airline_markets` nunca é candidata para
+trajeto nenhum. Em troca, companhia **ativa** sem mercado é erro de configuração.
+
+Não é inferível do dado que existe — é fato jurídico, e entra escrito à mão. Duas
+alternativas foram testadas e reprovadas: derivar país-sede pela contagem de
+aeroportos faz BA e LATAM parecerem americanas (a cauda de destinos bilhetáveis é
+dominada pelos EUA), e ordenar por tamanho de rede acerta 2 de 4 rotas conhecidas.
+
+**O seed vincula só companhia que existe naquele banco.** `airlines` é dado
+operacional: o único cadastro automático do projeto é o da `azul`
+(`init-scripts/02-seed.sh`), e as demais entram por ambiente. A lista cravada
+derrubava a migration inteira num banco que não tivesse todas — medido em
+produção em 2026-08-27, que não tem a `gol`. Quem cadastra a companhia cadastra o
+mercado dela junto, como o `02-seed.sh` já faz com a `azul`.
+
+**O que o mapa não responde:** ele diz *"pode voar"*, não *"vende"*. A Ryanair é
+candidata em MAD-BCN e não vende esse par. Quem responde isso é a
+`route_airline_coverage` com a escada de rebaixamento — desenhada em
+`flight-monitoring.IA/design/selecao-automatica-de-companhias.md`, ainda não
+implementada.
+
 ## Rotinas
 
 ### `routines`
