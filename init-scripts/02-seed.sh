@@ -6,6 +6,12 @@ psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<EO
 INSERT INTO airlines (code, name, active)
 VALUES ('azul', 'Azul Linhas Aéreas', true)
 ON CONFLICT (code) DO NOTHING;
+
+-- Mercado da companhia: sem isso ela nunca é candidata para trajeto nenhum
+-- (fail-closed, ver 019). Entra junto do cadastro dela, nunca depois.
+INSERT INTO airline_markets (airline_code, market_code)
+VALUES ('azul', 'br')
+ON CONFLICT DO NOTHING;
 EOSQL
 
 # Seed do admin — requer ADMIN_EMAIL e ADMIN_INITIAL_PASSWORD
