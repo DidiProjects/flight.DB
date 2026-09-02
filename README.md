@@ -4,9 +4,11 @@ PostgreSQL 16 (Docker) para o sistema de monitoramento de voos. Define schema, s
 
 ## Subir o banco
 
-Requer Docker + Docker Compose. `.env` na raiz (valores default em parênteses):
+Requer Docker + Docker Compose. `.env` na raiz — copiar de [`.env.example`](.env.example)
+(valores default em parênteses):
 
 ```env
+PG_BIND_IP=127.0.0.1
 PG_USER=admin
 PG_PASSWORD=admin123
 PG_DB=dev-flightDB
@@ -19,6 +21,16 @@ docker compose up -d
 ```
 
 Porta host: `5433` (→ 5432 no container). Container: `flight-db`. Volume: `flight_db_data`.
+
+### Interface de rede
+
+`PG_BIND_IP` é a interface do host em que a porta é publicada. Default `127.0.0.1`:
+o banco só aceita conexão da própria máquina. Para alcançar o banco de outro nó,
+usar o IP do Tailscale — nunca `0.0.0.0`, que expõe o Postgres à LAN inteira.
+
+No servidor, o deploy publica em `vars.TAILSCALE_IP:vars.DB_PORT`, então o acesso
+externo passa só pelo tailnet. Containers na rede `flight-network` continuam
+falando com o banco pelo hostname `flight-db:5432`, sem depender da porta publicada.
 
 ## init-scripts vs migrations
 
