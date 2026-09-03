@@ -18,6 +18,7 @@ Admin inserido no seed (`02-seed.sh`). `must_change_password=true` bloqueia aces
 
 ### `airlines`
 `code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` com `currency='BRL'`.
+`batch_size` (migration 020): quantos itens cabem numa sessão de navegador desta companhia. `1` = uma sessão por item, o comportamento anterior ao lote. Sobe por companhia, com medição — o custo por item é estrutural e diferente em cada uma.
 `currency` é opcional por companhia: quando preenchido (ex. Latam/Azul, sempre BRL) tem **prioridade máxima** na resolução da moeda da rotina; quando `NULL`, a moeda é resolvida dinamicamente.
 
 ### `airports`
@@ -84,6 +85,17 @@ PK (`routine_id`, `airline`) · `request_id` · `requested_at` — controle de s
 ### `scraping_jobs`
 Estado do scheduler. UNIQUE (`airline`, `origin`, `destination`, `flight_date`).
 `status` (`pending`|`running`|`success`|`failed`|`dead`) · `priority` · `retry_count`/`max_retries` · `next_run_at` · `last_success_at`/`last_failure_at`/`last_error` · `running_since`/`running_timeout_min` · `request_id`.
+`batch_id` (migration 020, FK SET NULL): lote a que o item pertence. Enquanto ele apontar para lote **vivo** (`dispatched`/`running`/`closing`), o item não pode ser reclamado pelo dispatcher — é o predicado que garante que operação em lote é tratada em lote, e vale tanto em `claimNextJob` quanto em `claimNextJobForRoutine` (o caminho do disparo manual).
+
+### `scraping_batches` (migration 020)
+Itens da mesma rota+companhia executados numa **sessão de navegador só**. A chave é a rota, e não a rotina, porque `scraping_jobs` deduplica por rota (migration 002): o job é propriedade do trajeto.
+
+`airline`/`origin`/`destination` · `status` (`dispatched`|`running`|`closing`|`completed`|`aborted`|`superseded`|`expired`) · `item_count`/`received_count` · `close_reason` · `superseded_by` · `attempt` · `created_at`/`closed_at`.
+
+Três coisas que o desenho depende:
+- **`item_count` decrementa** quando um item é cancelado no meio da corrida. Sem isso `received_count` nunca alcança e o lote só fecharia pelo backstop de tempo.
+- **Índice único parcial** `uq_scraping_batches_rota_viva`: no máximo um lote vivo por rota+companhia, garantido pelo banco. Dois disparos manuais simultâneos na mesma rota são um caso real, e dois lotes concorrentes produzem duas sessões do mesmo IP no mesmo site — medido na BA em 2026-08-24, as duas voltaram `BLOCKED` juntas.
+- **`attempt`**: o lote de retentativa é formado com os itens que falharam no lote anterior, com backoff **de lote**. Item que falha não volta à fila sozinho.
 
 ### `flight_fares`
 Tarifas brutas coletadas, 1 por voo por execução. `scraping_job_id` (FK CASCADE) · `request_id` (execução que coletou) · `flight_number`/`flight_date`/`is_return` · `origin`/`destination`/`airline` · `departure_time`/`arrival_time`/`duration_min`/`stops` · `currency` · `fare_cash`/`fare_pts`/`fare_hyb_pts`/`fare_hyb_cash` · `fare_cash_brl`/`fare_hyb_cash_brl`/`fx_rate`/`fx_rate_date` · `scraped_at`. **Valor em Real congelado na coleta (migration 017):** a conversão acontece uma vez, na ingestão da análise, e a taxa fica gravada na linha. Antes era feita na leitura — o que batia na API de câmbio a cada abertura de histórico e fazia a régua de 30 dias mudar com a cotação do dia. Também é o que permite somar as duas pernas de um par cujas pernas vêm de mercados diferentes (BA saindo de LHR: ida GBP, volta BRL); antes as queries de par exigiam `i.currency = o.currency` e descartavam esses pares inteiros. Linha sem cotação no momento entra com `fare_cash_brl` NULL e fica de fora das somas em Real, em vez de somar moedas. Índice único (`request_id`, `flight_date`, `is_return`, `flight_number`) impede duplicar o mesmo voo dentro de uma execução; snapshots de execuções diferentes são preservados (histórico). **Importante:** o discriminador é `request_id`, não `scraping_job_id` — com `scraping_jobs` por rota (migration 002) o job é permanente, então a chave de dedup precisa ser por execução para não congelar o snapshot na primeira coleta (migration 003). As leituras de "snapshot mais recente por data" também agrupam por `request_id`.
@@ -101,7 +113,7 @@ A unidade rastreada é o **itinerário**, não o voo. Medido nos dados coletados
 `fare_price_history`: 1 linha por **mudança** de preço, não por coleta — 71% das linhas coletadas na amostra repetiam o preço da execução anterior. O segmento carrega a janela que valeu (`observed_from` → `last_seen_at`) e `observation_count`, o que separa platô real de buraco de coleta. Preço que volta depois de mudar abre segmento novo (700 → 900 → 700 são três). `amount_cash_brl`/`fx_rate`/`fx_rate_date` seguem o contrato de 017: Real congelado na coleta, para o gráfico de 6 meses não se mexer com a cotação do dia. **É essa coluna que a série lê** — o dashboard inteiro fala Real. Ler `amount_cash` (moeda coletada) deixava a linha do gráfico em GBP ao lado de estatísticas em BRL, as duas rotuladas com o mesmo símbolo.
 
 ### `analysis_runs`
-1 linha por execução (dispatch→callback). `scraping_job_id` (FK SET NULL) · `request_id` · rota denormalizada (`airline`/`origin`/`destination`/`flight_date`) · `status` (`running`|`success`|`failed`|`dead`|`blocked`) · `error_message` · `fares_found` · `started_at`/`finished_at`. Denormalizado para sobreviver à limpeza de `scraping_jobs`.
+1 linha por execução (dispatch→callback). `scraping_job_id` (FK SET NULL) · `request_id` · rota denormalizada (`airline`/`origin`/`destination`/`flight_date`) · `status` (`running`|`success`|`failed`|`dead`|`blocked`|`cancelled`) · `error_message` · `fares_found` · `batch_id` (020) · `started_at`/`finished_at`. Denormalizado para sobreviver à limpeza de `scraping_jobs`.
 
 ## Notificações e ofertas (legado de avaliação por rotina)
 
