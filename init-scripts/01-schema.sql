@@ -55,7 +55,12 @@ CREATE TABLE airlines (
     -- Can it search round-trip (one session, two legs, pair total)? A round_trip
     -- routine only accepts an airline with this true, otherwise the pair job
     -- would come back with loose legs and no bundle.
-    has_roundtrip BOOLEAN  NOT NULL DEFAULT false
+    has_roundtrip BOOLEAN  NOT NULL DEFAULT false,
+    -- Quantos itens cabem numa sessão de navegador desta companhia (020). O
+    -- custo por item é estrutural e diferente em cada uma: a Ryanair nao precisa
+    -- do laco 1-para-N, a LATAM ainda faz um passe extra de pontos. 1 = uma
+    -- sessao por item, que e o comportamento anterior ao lote.
+    batch_size    INT      NOT NULL DEFAULT 1 CHECK (batch_size >= 1)
 );
 
 -- ─── mapa de mercado (019) ───────────────────────────────────────────────────
@@ -307,6 +312,51 @@ CREATE INDEX idx_target_alert_state_flight_date ON target_alert_state(flight_dat
 CREATE INDEX idx_pw_reset_token              ON password_reset_tokens(token);
 CREATE INDEX idx_unsubscribe_token           ON unsubscribe_tokens(token);
 
+-- ─── scraping_batches (020) ──────────────────────────────────────────────────
+-- Itens da mesma rota+companhia executados numa SESSAO DE NAVEGADOR so. A rota e
+-- a chave porque `scraping_jobs` deduplica por rota: o job e propriedade do
+-- trajeto, compartilhado por todas as rotinas que o cobrem.
+
+CREATE TABLE scraping_batches (
+  id             UUID        PRIMARY KEY DEFAULT gen_random_uuid(),
+  airline        VARCHAR(20) NOT NULL REFERENCES airlines(code),
+  origin         VARCHAR(10) NOT NULL,
+  destination    VARCHAR(10) NOT NULL,
+
+  -- 'closing' e o estado entre o sinal de fechamento do worker e a chegada dos
+  -- ultimos callbacks de item. Sem ele, um fechamento que passa na frente de um
+  -- callback fecharia o lote com item ainda no ar.
+  status         VARCHAR(20) NOT NULL DEFAULT 'dispatched'
+                 CHECK (status IN ('dispatched', 'running', 'closing',
+                                   'completed', 'aborted', 'superseded', 'expired')),
+
+  -- DECREMENTA quando um item e cancelado no meio da corrida, senao
+  -- `received_count` nunca alcanca e o lote so fecharia pelo backstop de tempo.
+  item_count     INT         NOT NULL CHECK (item_count >= 0),
+  received_count INT         NOT NULL DEFAULT 0 CHECK (received_count >= 0),
+
+  close_reason   TEXT,
+  superseded_by  UUID        REFERENCES scraping_batches(id) ON DELETE SET NULL,
+  -- n+1 = lote de retentativa formado com os itens que falharam no lote n. E o
+  -- que permite backoff DE LOTE em vez de backoff por item.
+  attempt        INT         NOT NULL DEFAULT 1 CHECK (attempt >= 1),
+
+  created_at     TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  closed_at      TIMESTAMPTZ,
+
+  CONSTRAINT scraping_batches_closed_when_terminal
+    CHECK ((status IN ('dispatched', 'running', 'closing')) = (closed_at IS NULL))
+);
+
+-- No maximo UM lote vivo por rota+companhia, garantido pelo banco: dois disparos
+-- manuais simultaneos na mesma rota sao um caso real, e dois lotes concorrentes
+-- contra a mesma companhia produzem duas sessoes do mesmo IP no mesmo site.
+CREATE UNIQUE INDEX uq_scraping_batches_rota_viva
+  ON scraping_batches (airline, origin, destination)
+  WHERE status IN ('dispatched', 'running', 'closing');
+
+CREATE INDEX idx_scraping_batches_status ON scraping_batches(status, created_at DESC);
+
 -- ─── scraping_jobs ───────────────────────────────────────────────────────────
 
 CREATE TABLE scraping_jobs (
@@ -349,6 +399,13 @@ CREATE TABLE scraping_jobs (
   -- Cancellation request recorded; the worker aborts through AbortSignal.
   cancel_requested_at TIMESTAMPTZ,
 
+  -- Lote vivo a que este item pertence (020). NULL = fora de lote. Enquanto
+  -- preenchido com lote vivo, o item NAO pode ser reclamado pelo dispatcher: e
+  -- assim que "operacao em lote e tratada em lote" vira predicado de SQL.
+  -- SET NULL, nunca CASCADE: apagar o registro de um lote nao pode levar junto o
+  -- job, que e a unidade de agendamento e sobrevive a qualquer corrida.
+  batch_id            UUID          REFERENCES scraping_batches(id) ON DELETE SET NULL,
+
   created_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
   updated_at          TIMESTAMPTZ   NOT NULL DEFAULT NOW(),
 
@@ -365,6 +422,7 @@ CREATE INDEX idx_scraping_jobs_airline_status  ON scraping_jobs(airline, status)
 CREATE INDEX idx_scraping_jobs_flight_date     ON scraping_jobs(flight_date);
 CREATE INDEX idx_scraping_jobs_request_id      ON scraping_jobs(request_id) WHERE request_id IS NOT NULL;
 CREATE INDEX idx_scraping_jobs_return_date     ON scraping_jobs(return_date) WHERE return_date IS NOT NULL;
+CREATE INDEX idx_scraping_jobs_batch           ON scraping_jobs(batch_id) WHERE batch_id IS NOT NULL;
 
 -- ─── flight_fares ─────────────────────────────────────────────────────────────
 
@@ -611,6 +669,8 @@ CREATE TABLE analysis_runs (
   fares_found     INT,
   -- Worker that took the run (realtime telemetry).
   worker_id       VARCHAR(40),
+  -- Lote em que esta corrida foi despachada (020). NULL = fora de lote.
+  batch_id        UUID         REFERENCES scraping_batches(id) ON DELETE SET NULL,
   -- Who asked for the cancellation; NULL when it was not cancelled.
   cancelled_by    UUID         REFERENCES users(id) ON DELETE SET NULL,
   started_at      TIMESTAMPTZ  NOT NULL DEFAULT now(),
@@ -621,6 +681,8 @@ CREATE INDEX idx_analysis_runs_match
   ON analysis_runs(airline, origin, destination, flight_date, started_at DESC);
 CREATE INDEX idx_analysis_runs_request
   ON analysis_runs(request_id);
+CREATE INDEX idx_analysis_runs_batch
+  ON analysis_runs(batch_id) WHERE batch_id IS NOT NULL;
 
 -- ─── analysis_run_events ──────────────────────────────────────────────────────
 -- Timeline of events per request_id, fed by the worker's telemetry.
