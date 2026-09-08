@@ -36,7 +36,7 @@ falando com o banco pelo hostname `flight-db:5432`, sem depender da porta public
 
 - `init-scripts/` — rodam **uma vez**, na primeira inicialização do volume (Docker `docker-entrypoint-initdb.d`):
   - `01-schema.sql` — schema completo para banco novo.
-  - `02-seed.sh` — insere airline `azul` + admin (`ADMIN_EMAIL` / `ADMIN_INITIAL_PASSWORD`, senha via pgcrypto).
+  - `02-seed.sh` — insere airlines `azul` e `gol` (+ mercado `br` de cada) + admin (`ADMIN_EMAIL` / `ADMIN_INITIAL_PASSWORD`, senha via pgcrypto).
 - `migrations/NNN_*.sql` — alterações incrementais para bancos **já existentes**. Aplicar manualmente, em ordem. `01-schema.sql` já reflete o resultado de todas as migrations.
 
 Para banco novo, basta o `01-schema.sql`. Em produção, schema já criado → aplicar só a migration nova.
