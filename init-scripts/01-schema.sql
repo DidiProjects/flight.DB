@@ -63,7 +63,10 @@ CREATE TABLE airlines (
     batch_size    INT      NOT NULL DEFAULT 1 CHECK (batch_size >= 1),
     -- Bloqueios seguidos (021), para a pausa escalar em vez de ficar fixa em 1h.
     -- Zera na primeira coleta bem-sucedida da companhia, em qualquer rota.
-    consecutive_blocks INT NOT NULL DEFAULT 0 CHECK (consecutive_blocks >= 0)
+    consecutive_blocks INT NOT NULL DEFAULT 0 CHECK (consecutive_blocks >= 0),
+    -- Teto de despachos por hora (022): concorrência limita quantas coletas
+    -- rodam ao mesmo tempo, isto limita quantas COMEÇAM por hora.
+    max_dispatches_per_hour INT NOT NULL DEFAULT 2 CHECK (max_dispatches_per_hour >= 1)
 );
 
 -- ─── mapa de mercado (019) ───────────────────────────────────────────────────
