@@ -60,7 +60,13 @@ CREATE TABLE airlines (
     -- custo por item é estrutural e diferente em cada uma: a Ryanair nao precisa
     -- do laco 1-para-N, a LATAM ainda faz um passe extra de pontos. 1 = uma
     -- sessao por item, que e o comportamento anterior ao lote.
-    batch_size    INT      NOT NULL DEFAULT 1 CHECK (batch_size >= 1)
+    batch_size    INT      NOT NULL DEFAULT 1 CHECK (batch_size >= 1),
+    -- Bloqueios seguidos (021), para a pausa escalar em vez de ficar fixa em 1h.
+    -- Zera na primeira coleta bem-sucedida da companhia, em qualquer rota.
+    consecutive_blocks INT NOT NULL DEFAULT 0 CHECK (consecutive_blocks >= 0),
+    -- Teto de despachos por hora (022): concorrência limita quantas coletas
+    -- rodam ao mesmo tempo, isto limita quantas COMEÇAM por hora.
+    max_dispatches_per_hour INT NOT NULL DEFAULT 2 CHECK (max_dispatches_per_hour >= 1)
 );
 
 -- ─── mapa de mercado (019) ───────────────────────────────────────────────────
