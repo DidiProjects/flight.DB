@@ -3,13 +3,16 @@ set -e
 
 # Seed inicial: companhias aéreas
 #
-# GOL entra com o piloto do voegol: só dinheiro. has_pts/has_hyb ficam no default
-# false — o Smiles (pontos/híbrido) é outro pacote. has_roundtrip false: a busca de
-# volta não foi observada. O resto das companhias entra por ambiente (ver 019).
+# GOL entra pelo voegol: dinheiro, ida e ida-e-volta. has_pts/has_hyb ficam no
+# default false — o Smiles (pontos/híbrido) é outro pacote. O resto das companhias
+# entra por ambiente (ver 019).
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<EOSQL
 INSERT INTO airlines (code, name, active, has_cash)
-VALUES ('azul', 'Azul Linhas Aéreas', true, true),
-       ('gol',  'GOL Linhas Aéreas',  true, true)
+VALUES ('azul', 'Azul Linhas Aéreas', true, true)
+ON CONFLICT (code) DO NOTHING;
+
+INSERT INTO airlines (code, name, active, has_cash, has_roundtrip)
+VALUES ('gol', 'GOL Linhas Aéreas', true, true, true)
 ON CONFLICT (code) DO NOTHING;
 
 -- Mercado da companhia: sem isso ela nunca é candidata para trajeto nenhum

@@ -17,7 +17,7 @@ Admin inserido no seed (`02-seed.sh`). `must_change_password=true` bloqueia aces
 ## Catálogo
 
 ### `airlines`
-`code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` e `gol` — a `gol` no piloto do voegol, só `has_cash` (Smiles/pontos é outro pacote), `has_roundtrip` false.
+`code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` e `gol` — a `gol` pelo voegol, `has_cash` + `has_roundtrip` (Smiles/pontos é outro pacote, `has_pts`/`has_hyb` false).
 `batch_size` (migration 020): quantos itens cabem numa sessão de navegador desta companhia. `1` = uma sessão por item, o comportamento anterior ao lote. Sobe por companhia, com medição — o custo por item é estrutural e diferente em cada uma.
 `currency` é opcional por companhia: quando preenchido (ex. Latam/Azul, sempre BRL) tem **prioridade máxima** na resolução da moeda da rotina; quando `NULL`, a moeda é resolvida dinamicamente.
 

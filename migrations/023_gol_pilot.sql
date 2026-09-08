@@ -1,4 +1,4 @@
--- 023 — GOL entra ativa, no piloto do voegol (só dinheiro).
+-- 023 — GOL entra ativa, pelo voegol (dinheiro; ida e ida-e-volta).
 --
 -- `init-scripts/02-seed.sh` passou a cadastrar `gol` junto da `azul`, mas o seed
 -- só roda em banco novo. Esta migration é o mesmo cadastro para os bancos que já
@@ -11,14 +11,14 @@
 -- o vínculo de mercado depois; não há FK insatisfeita.
 --
 -- `ON CONFLICT DO UPDATE`, não `DO NOTHING`: no dev já existe uma linha `gol`
--- placeholder (nome com typo, `active=false`, `has_pts`/`has_roundtrip` ligados)
--- de um teste antigo de cobertura. Esta é a entrada de verdade da GOL, e ela
--- crava o estado canônico do piloto por cima de qualquer rascunho:
+-- placeholder (nome com typo, `active=false`, `has_pts` ligado) de um teste antigo
+-- de cobertura. Esta é a entrada de verdade da GOL, e ela crava o estado canônico
+-- por cima de qualquer rascunho:
 --
---   · só `has_cash` — o Smiles (pontos/híbrido) é outro pacote;
---   · `has_roundtrip=false` — a busca de ida-e-volta da GOL não foi observada;
---     com ela ligada, uma rotina round_trip seria aceita e voltaria com as
---     pernas soltas e sem o total do par;
+--   · `has_cash` e `has_roundtrip` — o voegol coleta ida e ida-e-volta; a busca
+--     RT é o fluxo de duas páginas (ida → volta), com as pernas precificadas
+--     independentemente (Ryanair, não Azul);
+--   · `has_pts`/`has_hyb` false — o Smiles (pontos/híbrido) é outro pacote;
 --   · `active=true` — entra oferecível e no ciclo de despacho.
 --
 -- `batch_size` e `max_dispatches_per_hour` NÃO são tocados: são operacionais,
@@ -30,7 +30,7 @@
 BEGIN;
 
 INSERT INTO airlines (code, name, active, has_cash, has_pts, has_hyb, has_roundtrip)
-VALUES ('gol', 'GOL Linhas Aéreas', true, true, false, false, false)
+VALUES ('gol', 'GOL Linhas Aéreas', true, true, false, false, true)
 ON CONFLICT (code) DO UPDATE SET
   name          = EXCLUDED.name,
   active        = EXCLUDED.active,
