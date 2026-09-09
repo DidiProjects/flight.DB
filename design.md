@@ -17,7 +17,7 @@ Admin inserido no seed (`02-seed.sh`). `must_change_password=true` bloqueia aces
 ## Catálogo
 
 ### `airlines`
-`code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` com `currency='BRL'`.
+`code` PK (ex. `azul`) · `name` · `currency` (opcional, sem default) · `active` · `has_cash`/`has_pts`/`has_hyb`. Seed: `azul` e `gol` — a `gol` pelo voegol, `has_cash` + `has_roundtrip` (Smiles/pontos é outro pacote, `has_pts`/`has_hyb` false).
 `batch_size` (migration 020): quantos itens cabem numa sessão de navegador desta companhia. `1` = uma sessão por item, o comportamento anterior ao lote. Sobe por companhia, com medição — o custo por item é estrutural e diferente em cada uma.
 `currency` é opcional por companhia: quando preenchido (ex. Latam/Azul, sempre BRL) tem **prioridade máxima** na resolução da moeda da rotina; quando `NULL`, a moeda é resolvida dinamicamente.
 
@@ -55,11 +55,12 @@ aeroportos faz BA e LATAM parecerem americanas (a cauda de destinos bilhetáveis
 dominada pelos EUA), e ordenar por tamanho de rede acerta 2 de 4 rotas conhecidas.
 
 **O seed vincula só companhia que existe naquele banco.** `airlines` é dado
-operacional: o único cadastro automático do projeto é o da `azul`
+operacional: os cadastros automáticos do projeto são `azul` e `gol`
 (`init-scripts/02-seed.sh`), e as demais entram por ambiente. A lista cravada
-derrubava a migration inteira num banco que não tivesse todas — medido em
-produção em 2026-08-27, que não tem a `gol`. Quem cadastra a companhia cadastra o
-mercado dela junto, como o `02-seed.sh` já faz com a `azul`.
+numa migration derrubava a migration inteira num banco que não tivesse todas —
+medido em produção em 2026-08-27, que na época não tinha a `gol`. Quem cadastra a
+companhia cadastra o mercado dela junto, como o `02-seed.sh` já faz com `azul` e
+`gol` (ambas em `br`).
 
 **O que o mapa não responde:** ele diz *"pode voar"*, não *"vende"*. A Ryanair é
 candidata em MAD-BCN e não vende esse par. Quem responde isso é a
