@@ -430,6 +430,40 @@ CREATE INDEX idx_scraping_jobs_request_id      ON scraping_jobs(request_id) WHER
 CREATE INDEX idx_scraping_jobs_return_date     ON scraping_jobs(return_date) WHERE return_date IS NOT NULL;
 CREATE INDEX idx_scraping_jobs_batch           ON scraping_jobs(batch_id) WHERE batch_id IS NOT NULL;
 
+-- ─── routine dispatch fairness (024) ─────────────────────────────────────────
+-- `scraping_jobs.priority` e justo entre JOBS (deduplicados por rota), nao entre
+-- ROTINAS. Uma rotina de janela larga fabrica muitos jobs e segura o topo da
+-- fila. `updatePriorities` ganha um terceiro termo — horas desde o ultimo
+-- despacho DA ROTINA nessa companhia — que le estas duas estruturas.
+
+-- Uma linha por (rotina, companhia), carimbada em dispatchBatch. Conta
+-- DESPACHO, nao sucesso: a justica e sobre acesso a sessao de navegador.
+CREATE TABLE routine_airline_dispatch (
+    routine_id         UUID        NOT NULL REFERENCES routines(id) ON DELETE CASCADE,
+    airline            VARCHAR(20) NOT NULL REFERENCES airlines(code),
+    last_dispatched_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    PRIMARY KEY (routine_id, airline)
+);
+
+-- Casamento job<->rotina num lugar so: a logica de `upsertFromRoutines`,
+-- invertida. View e nao tabela materializada — sem drift, sem manutencao em
+-- retire/revive/edit de rotina.
+CREATE VIEW job_routine_membership AS
+SELECT j.id AS job_id,
+       r.id AS routine_id
+  FROM scraping_jobs j
+  JOIN routine_airlines ra ON ra.airline = j.airline
+  JOIN routines        r  ON r.id = ra.routine_id
+ WHERE r.is_active = true
+   AND r.origin      = j.origin
+   AND r.destination = j.destination
+   AND j.flight_date BETWEEN r.outbound_start AND r.outbound_end
+   AND (
+        (j.return_date IS NULL     AND r.trip_type = 'one_way')
+     OR (j.return_date IS NOT NULL AND r.trip_type = 'round_trip'
+         AND j.return_date BETWEEN r.inbound_start AND r.inbound_end)
+   );
+
 -- ─── flight_fares ─────────────────────────────────────────────────────────────
 
 CREATE TABLE flight_fares (
