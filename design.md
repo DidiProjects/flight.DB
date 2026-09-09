@@ -81,6 +81,14 @@ PK (`routine_id`, `airline`) — companhias por rotina.
 ### `routine_pending_requests`
 PK (`routine_id`, `airline`) · `request_id` · `requested_at` — controle de scrape em andamento por rotina/cia.
 
+### `routine_airline_dispatch` (migration 024)
+PK (`routine_id`, `airline`) · `last_dispatched_at` — carimbo do último despacho **da rotina** naquela companhia, atualizado em `dispatchBatch`. Conta despacho, não sucesso: a justiça é sobre acesso à sessão de navegador exclusiva, que o despacho consome independente do resultado.
+
+Alimenta o terceiro termo de `scraping_jobs.priority` (`updatePriorities`): `LEAST(horas_desde_o_despacho_mais_antigo_das_rotinas_do_job, CAP)/CAP * W_fair`. `priority` sozinho é justo entre **jobs** (deduplicados por rota), não entre **rotinas** — uma rotina de janela larga fabrica dezenas de jobs e segura o topo da fila, consumindo todo o `max_dispatches_per_hour` da companhia. Assim que a rotina recebe um despacho, todos os jobs dela perdem o bônus no mesmo instante e a rotina concorrente passa na frente. `W_fair=0` reproduz o comportamento anterior.
+
+### `job_routine_membership` (view, migration 024)
+`(job_id, routine_id)` — casamento job↔rotina (rota + janela de datas + `trip_type`/`return_date`), a lógica de `upsertFromRoutines` invertida, num lugar só. View e não tabela materializada: sem drift com a regra de geração, sem manutenção em retire/revive/edit. Lida pelo termo de justiça acima e pelo upsert de `routine_airline_dispatch` no despacho.
+
 ## Histórico de preços (PROP-001)
 
 ### `scraping_jobs`
